@@ -41,17 +41,10 @@ Or check <a href = "https://github.com/itsdrnoob/DataMonitor/releases/latest">re
 ## Changelog
 View the complete changelog <a href = "CHANGELOG.md">here</a>
 
-## Telegram support
-Cick <a href="https://t.me/datamonitor">here</a> to join the telegram support chat. If that didn't work try searching for <code>@datamonitor</code> in telegram instead.
-
 ## License
 Check app license <a href = "LICENSE">here</a>
 
 ## Contribute
 Click <a href = "CONTRIBUTING.md">here</a> to learn how to contribute.
 
-## XDA Thread
-Check xda thread <a href = "https://forum.xda-developers.com/t/app-v1-0-data-monitor-track-all-your-data-usage-at-one-place.4356129/">here</a>.
 
-## NOTE
-Play store release differs in signature with Github and other releases. This means that if you have apk from Github or AFH installed, you won't be able to update directly from Play store. If you have the Github variant installed and want to use Playstore one, you have to uninstall the app and reinstall from Playstore.
