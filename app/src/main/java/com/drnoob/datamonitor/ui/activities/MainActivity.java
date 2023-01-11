@@ -35,10 +35,14 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.text.Spannable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.RadioGroup;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -57,8 +61,8 @@ import com.drnoob.datamonitor.Widget.DataUsageWidget;
 import com.drnoob.datamonitor.adapters.data.AppDataUsageModel;
 import com.drnoob.datamonitor.core.task.DatabaseHandler;
 import com.drnoob.datamonitor.databinding.ActivityMainBinding;
-import com.drnoob.datamonitor.utils.CrashReporter;
 import com.drnoob.datamonitor.utils.SharedPreferences;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -78,7 +82,9 @@ import static com.drnoob.datamonitor.core.Values.APP_COUNTRY_CODE;
 import static com.drnoob.datamonitor.core.Values.APP_DATA_USAGE_WARNING_CHANNEL_ID;
 import static com.drnoob.datamonitor.core.Values.APP_DATA_USAGE_WARNING_CHANNEL_NAME;
 import static com.drnoob.datamonitor.core.Values.APP_LANGUAGE_CODE;
+import static com.drnoob.datamonitor.core.Values.APP_LANGUAGE_FRAGMENT;
 import static com.drnoob.datamonitor.core.Values.APP_THEME;
+import static com.drnoob.datamonitor.core.Values.APP_THEME_SUMMARY;
 import static com.drnoob.datamonitor.core.Values.BOTTOM_NAVBAR_ITEM_SETTINGS;
 import static com.drnoob.datamonitor.core.Values.DATA_RESET_DATE;
 import static com.drnoob.datamonitor.core.Values.DATA_USAGE_NOTIFICATION_CHANNEL_ID;
@@ -126,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(MainActivity.this);
-        Thread.setDefaultUncaughtExceptionHandler(new CrashReporter(MainActivity.this));
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             if (!isReadPhoneStateGranted(MainActivity.this)) {
                 startActivity(new Intent(this, SetupActivity.class)
@@ -235,7 +240,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
     }
+
 
     private void checkBatteryOptimisationState() {
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)
@@ -368,11 +375,106 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
                 break;
+            case R.id.mTheme:
+                BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this, R.style.BottomSheet);
+                View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_app_theme, null);
 
-            case R.id.toolbar_settings:
-                startActivity(new Intent(MainActivity.this, ContainerActivity.class)
-                        .putExtra(GENERAL_FRAGMENT_ID, BOTTOM_NAVBAR_ITEM_SETTINGS));
+                RadioGroup themeGroup = dialogView.findViewById(R.id.themes_group);
+                ConstraintLayout footer = dialogView.findViewById(R.id.footer);
+                TextView cancel = footer.findViewById(R.id.cancel);
+                TextView ok = footer.findViewById(R.id.ok);
+
+                String theme = PreferenceManager.getDefaultSharedPreferences(this)
+                        .getString(APP_THEME, "system");
+                switch (theme) {
+                    case "dark":
+                        themeGroup.check(R.id.theme_dark);
+                        break;
+
+                    case "light":
+                        themeGroup.check(R.id.theme_light);
+                        break;
+
+                    case "system":
+                        themeGroup.check(R.id.theme_system);
+                        break;
+
+                    default:
+                        themeGroup.check(R.id.theme_system);
+                        break;
+                }
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String theme;
+                        String summary;
+                        switch (themeGroup.getCheckedRadioButtonId()) {
+                            case R.id.theme_light:
+                                // Light theme
+                                theme = "light";
+                                summary = getString(R.string.light_theme_summary);
+                                break;
+
+                            case R.id.theme_dark:
+                                // Dark theme
+                                theme = "dark";
+                                summary = getString(R.string.dark_theme_summary);
+                                break;
+
+                            case R.id.theme_system:
+                                // System theme
+                                theme = "system";
+                                summary = getString(R.string.system_theme_summary);
+                                break;
+
+                            default:
+                                // Set system theme as default
+                                theme = "system";
+                                summary = getString(R.string.system_theme_summary);
+                                break;
+                        }
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                                .edit()
+                                .putString(APP_THEME, theme)
+                                .putString(APP_THEME_SUMMARY, summary)
+                                .apply();
+                        switch (theme) {
+                            case "dark":
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                break;
+
+                            case "light":
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                break;
+
+                            case "system":
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                                break;
+
+                            default:
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setContentView(dialogView);
+                dialog.show();
                 break;
+            case R.id.language:
+                startActivity(new Intent(this, ContainerActivity.class)
+                        .putExtra(GENERAL_FRAGMENT_ID, APP_LANGUAGE_FRAGMENT));
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -421,6 +523,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
     private static class FetchApps extends AsyncTask {
         private final Context mContext;

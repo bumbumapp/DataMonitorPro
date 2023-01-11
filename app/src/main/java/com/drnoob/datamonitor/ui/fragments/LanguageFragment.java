@@ -74,15 +74,9 @@ public class LanguageFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mContribute = view.findViewById(R.id.contribute_language);
 
-        mContribute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW)
-                        .setData(Uri.parse(getString(R.string.github_contribute_translations))));
-            }
-        });
+
+
     }
 
     public static class Language extends PreferenceFragmentCompat {

@@ -31,9 +31,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.DataMonitor">
@@ -48,6 +48,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.ServersActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
         <activity android:name=".ui.activities.ContainerActivity"
             android:screenOrientation="portrait"
             android:exported="false"
@@ -137,13 +140,6 @@
             tools:ignore="LockedOrientationActivity">
         </activity>
 
-        <activity
-            android:name=".ui.activities.CrashReportActivity"
-            android:fitsSystemWindows="true"
-            android:screenOrientation="portrait"
-            android:exported="true"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
 
         <receiver android:name=".utils.BootReceiver"
             android:enabled="true"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">"Показник Даних"</string>
+    <string name="app_name">монітор даних про</string>
     <string name="appwidget_text">"ЗРАЗОК"</string>
     <string name="add_widget">"Додати пристосунок"</string>
     <string name="notification_mobile_data_usage">"Мобільні дані : %1$s"</string>

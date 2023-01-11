@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Data Monitor</string>
+    <string name="app_name">Data Monitor pro</string>
     <string name="appwidget_text">範例</string>
     <string name="add_widget">新增小工具</string>
     <string name="reset_time" translatable="false">%1$d/%2$d/%3$d %4$d:%5$d:00</string>

@@ -45,6 +45,7 @@ public class Values {
     public static final int SESSION_THIS_MONTH = 0x001E;
     public static final int SESSION_LAST_MONTH = 0x0028;
     public static final int SESSION_THIS_YEAR = 0x0032;
+    public static final int SESSION_THIS_WEEK = 0x0030;
     public static final int SESSION_ALL_TIME = 0x003C;
     public static final int SESSION_MONTHLY = 0x00A9;
     public static final int SESSION_CUSTOM = 0x00AC;

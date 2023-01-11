@@ -61,6 +61,7 @@ import static com.drnoob.datamonitor.core.Values.DATA_USAGE_TYPE;
 import static com.drnoob.datamonitor.core.Values.SESSION_ALL_TIME;
 import static com.drnoob.datamonitor.core.Values.SESSION_LAST_MONTH;
 import static com.drnoob.datamonitor.core.Values.SESSION_THIS_MONTH;
+
 import static com.drnoob.datamonitor.core.Values.SESSION_THIS_YEAR;
 import static com.drnoob.datamonitor.core.Values.SESSION_TODAY;
 import static com.drnoob.datamonitor.core.Values.SESSION_YESTERDAY;
@@ -180,6 +181,9 @@ public class AppDataUsageFragment extends Fragment {
                     case SESSION_YESTERDAY:
                         sessions.check(R.id.session_yesterday);
                         break;
+//                    case SESSION_THIS_WEEK:
+//                        sessions.check(R.id.session_week);
+//                        break;
 
                     case SESSION_THIS_MONTH:
                         sessions.check(R.id.session_this_month);
@@ -329,7 +333,7 @@ public class AppDataUsageFragment extends Fragment {
 
     @Override
     public void onPause() {
-        viewModel.setCurrentSession(getSession(Objects.requireNonNull(getContext())));
+        viewModel.setCurrentSession(getSession(requireContext()));
         viewModel.setCurrentType(getType(getContext()));
         super.onPause();
     }
@@ -423,6 +427,9 @@ public class AppDataUsageFragment extends Fragment {
         else if (selectedSession.equalsIgnoreCase(sessionYesterday)) {
             session = SESSION_YESTERDAY;
         }
+//        else if (selectedSession.equalsIgnoreCase(sesssionThisWeek)) {
+//            session = SESSION_THIS_WEEK;
+//        }
         else if (selectedSession.equalsIgnoreCase(sessionThisMonth)) {
             session = SESSION_THIS_MONTH;
         }
@@ -469,6 +476,9 @@ public class AppDataUsageFragment extends Fragment {
             case SESSION_YESTERDAY:
                 mSession.setText(mContext.getString(R.string.label_yesterday));
                 break;
+//            case SESSION_THIS_WEEK:
+//                mSession.setText(mContext.getString(R.string.label_this_week));
+//                break;
 
             case SESSION_THIS_MONTH:
                 mSession.setText(mContext.getString(R.string.label_this_month));

@@ -19,6 +19,7 @@
 
 package com.drnoob.datamonitor.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.appwidget.AppWidgetManager;
@@ -154,6 +155,7 @@ public class SetupFragment extends Fragment {
                 mAutoHideNetworkSpeed;
         private Snackbar snackbar;
 
+        @SuppressLint("StringFormatMatches")
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.setup_preference, rootKey);
@@ -1248,6 +1250,7 @@ public class SetupFragment extends Fragment {
             });
 
             mDataWarningTrigger.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
+                @SuppressLint("StringFormatInvalid")
                 @Override
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     BottomSheetDialog dialog = new BottomSheetDialog(getContext(), R.style.BottomSheet);

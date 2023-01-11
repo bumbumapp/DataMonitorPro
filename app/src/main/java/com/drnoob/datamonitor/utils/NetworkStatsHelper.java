@@ -52,6 +52,7 @@ import static com.drnoob.datamonitor.core.Values.SESSION_CUSTOM;
 import static com.drnoob.datamonitor.core.Values.SESSION_LAST_MONTH;
 import static com.drnoob.datamonitor.core.Values.SESSION_MONTHLY;
 import static com.drnoob.datamonitor.core.Values.SESSION_THIS_MONTH;
+import static com.drnoob.datamonitor.core.Values.SESSION_THIS_WEEK;
 import static com.drnoob.datamonitor.core.Values.SESSION_THIS_YEAR;
 import static com.drnoob.datamonitor.core.Values.SESSION_TODAY;
 import static com.drnoob.datamonitor.core.Values.SESSION_YESTERDAY;
@@ -414,7 +415,7 @@ public class NetworkStatsHelper {
     }
 
     public static Long[] getTimePeriod(Context context, int session, @Nullable int startDate) throws ParseException {
-        int year, month, day;
+        int year, month, day,week;
         long resetTimeMillis = 0l,
                 endTimeMillis = 0l;
 
@@ -427,6 +428,7 @@ public class NetworkStatsHelper {
         SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat weekFormat = new SimpleDateFormat("ww");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
         String startTime, endTime;
@@ -480,6 +482,19 @@ public class NetworkStatsHelper {
                 endDate = dateFormat.parse(endTime);
                 endTimeMillis = endDate.getTime();
                 break;
+//            case SESSION_THIS_WEEK:
+//                year = Integer.parseInt(yearFormat.format(date));
+//                month = Integer.parseInt(monthFormat.format(date));
+//                week = Integer.parseInt(weekFormat.format(date));
+//                day = startDate;
+//                startTime = context.getResources().getString(R.string.reset_time2, year, month,week,day, resetHour, resetMin);
+//                resetDate = dateFormat.parse(startTime);
+//                resetTimeMillis = resetDate.getTime();
+//                day = Integer.parseInt(dayFormat.format(date)) + 1;
+//                endTime = context.getResources().getString(R.string.reset_time2, year, month,week,day, resetHour, resetMin);
+//                endDate = dateFormat.parse(endTime);
+//                endTimeMillis = endDate.getTime();
+//                break;
 
             case SESSION_LAST_MONTH:
 //                year = Integer.parseInt(yearFormat.format(date));

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">"ഡാറ്റ മോണിറ്റർ"</string>
+    <string name="app_name">"ഡാറ്റ മോണിറ്റർ പ്രോ"</string>
     <string name="appwidget_text">"ഉദാഹരണം"</string>
     <string name="add_widget">"വിജറ്റ് ചേർക്കുക"</string>
     <string name="notification_mobile_data_usage">"മൊബൈൽ ഡാറ്റ : %1$s"</string>

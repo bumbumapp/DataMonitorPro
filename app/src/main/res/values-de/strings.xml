@@ -99,7 +99,7 @@
     <string name="read_phone_state_body">Geräte mit Android-Version 9 und darunter müssen diese Genehmigung manuell erteilen. Es werden keine persönlichen Daten gesammelt.</string>
     <string name="action_permission_granted">Erlaubnis erteilt</string>
     <string name="error_permission_denied">Berechtigung verweigert. Bitte gewähren Sie sie manuell.</string>
-    <string name="app_name">Daten-Monitor</string>
+    <string name="app_name">Datenmonitor pro</string>
     <string name="appwidget_text">Beispiel</string>
     <string name="add_widget">Widget hinzufügen</string>
     <string name="app_theme_summary">Auswählen des App-Designs</string>

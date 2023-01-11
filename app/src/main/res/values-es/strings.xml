@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">"Monitor de datos"</string>
+    <string name="app_name">"monitor de datos pro"</string>
     <string name="appwidget_text">"EJEMPLO"</string>
     <string name="add_widget">"Agregar widget"</string>
     <string name="notification_mobile_data_usage">"Datos móviles : %1$s"</string>

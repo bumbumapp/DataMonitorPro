@@ -5,7 +5,7 @@
     <string name="title_app_data_usage_session">Выбор периода</string>
     <string name="title_app_data_usage_type">Выбор типа данных</string>
     <string name="label_wifi">Wi-Fi</string>
-    <string name="app_name">Монитор данных</string>
+    <string name="app_name">монитор данных про</string>
     <string name="home_wifi_data_received">%1$s
 \nПолучено</string>
     <string name="label_sent">отправлено</string>

@@ -10,7 +10,6 @@
 
             <com.drnoob.datamonitor.core.base.Preference
                 android:title="Bitcoin"
-                android:icon="@drawable/ic_bitcoin"
                 android:key="bitcoin"
                 app:summary="@string/btc_address"
                 app:widgetLayout="@layout/preference_right_arrow"/>

@@ -68,11 +68,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         mAppThemePicker = (Preference) findPreference("app_theme");
         mLanguagePicker = (Preference) findPreference("language_picker");
-        mDiagnosticsSettings = (Preference) findPreference("network_diagnostics");
-        mAbout = (Preference) findPreference("about");
-        mLicense = (Preference) findPreference("license");
-        mContributors = (Preference) findPreference("contributors");
-        mDonate = (Preference) findPreference("donate");
 
         String themeSummary = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(APP_THEME_SUMMARY, getString(R.string.system_theme_summary));
@@ -188,50 +183,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
 
-        mDiagnosticsSettings.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                startActivity(new Intent(getContext(), ContainerActivity.class)
-                        .putExtra(GENERAL_FRAGMENT_ID, DIAGNOSTICS_SETTINGS_FRAGMENT));
-                return false;
-            }
-        });
 
-        mAbout.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                startActivity(new Intent(getContext(), ContainerActivity.class)
-                        .putExtra(GENERAL_FRAGMENT_ID, ABOUT_FRAGMENT));
-                return false;
-            }
-        });
-
-        mLicense.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                startActivity(new Intent(getContext(), ContainerActivity.class)
-                        .putExtra(GENERAL_FRAGMENT_ID, LICENSE_FRAGMENT));
-                return false;
-            }
-        });
-
-        mContributors.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                startActivity(new Intent(getContext(), ContainerActivity.class)
-                        .putExtra(GENERAL_FRAGMENT_ID, CONTRIBUTORS_FRAGMENT));
-                return false;
-            }
-        });
-
-        mDonate.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(androidx.preference.Preference preference) {
-                startActivity(new Intent(getContext(), ContainerActivity.class)
-                        .putExtra(GENERAL_FRAGMENT_ID, DONATE_FRAGMENT));
-                return false;
-            }
-        });
 
 
     }

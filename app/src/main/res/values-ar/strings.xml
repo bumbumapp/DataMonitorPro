@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">"مراقب البيانات"</string>
+    <string name="app_name">"مراقبة البيانات للمحترفين"</string>
     <string name="appwidget_text">"مثال"</string>
     <string name="add_widget">"إضافة تطبيق مصغر"</string>
     <string name="notification_mobile_data_usage">"بيانات الجوال: %1$s"</string>

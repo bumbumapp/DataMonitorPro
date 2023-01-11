@@ -1,249 +1,357 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/info"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginTop="@dimen/margin_mid_large"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:background="@drawable/banner_background"
-        android:clickable="true"
-        android:drawableStart="@drawable/ic_info"
-        android:drawablePadding="@dimen/margin_mid_large"
-        android:elevation="@dimen/elevation_default"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/margin_mid_large"
-        android:paddingTop="@dimen/margin_mid_large"
-        android:paddingEnd="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_mid_large"
-        android:text="@string/network_diagnostics_info"
-        android:textSize="@dimen/text_small"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/test_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/ripple_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerInside"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/button_ripple" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/run_diagnostics"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/button_run_diagnostics_background"
-            android:clickable="true"
-            android:elevation="1dp"
+            android:id="@+id/type"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_12sdp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/rounder_text_backgrund"
             android:gravity="center"
-            android:padding="@dimen/padding_medium"
-            android:text="@string/run_diagnostics"
-            android:textColor="@color/primary"
-            android:textSize="@dimen/text_run_diagnostics"
-            android:textStyle="bold"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/ripple_view"
-            app:layout_constraintEnd_toEndOf="@+id/ripple_view"
-            app:layout_constraintStart_toStartOf="@+id/ripple_view"
-            app:layout_constraintTop_toTopOf="@+id/ripple_view" />
+            android:text="---"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/_8sdp"></TextView>
 
-
-        <ProgressBar
-            android:id="@+id/diagnostics_running"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:scaleX="1.25"
-            android:scaleY="1.25"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/ripple_view"
-            app:layout_constraintEnd_toEndOf="@+id/ripple_view"
-            app:layout_constraintStart_toStartOf="@+id/ripple_view"
-            app:layout_constraintTop_toTopOf="@+id/ripple_view" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.3" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.7" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--    <com.airbnb.lottie.LottieAnimationView-->
-    <!--        android:id="@+id/ripple_view"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:scaleType="centerInside"-->
-    <!--        android:scaleX="1.5"-->
-    <!--        android:scaleY="1.5"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintDimensionRatio="1:1"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/guideline2"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/guideline3"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:lottie_autoPlay="true"-->
-    <!--        app:lottie_loop="true"-->
-    <!--        app:lottie_rawRes="@raw/button_ripple" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/run_diagnostics"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_marginRight="5dp"-->
-    <!--        android:layout_marginBottom="5dp"-->
-    <!--        android:background="@drawable/button_run_diagnostics_background"-->
-    <!--        android:clickable="true"-->
-    <!--        android:elevation="1dp"-->
-    <!--        android:gravity="center"-->
-    <!--        android:padding="@dimen/padding_medium"-->
-    <!--        android:text="@string/run_diagnostics"-->
-    <!--        android:textColor="@color/primary"-->
-    <!--        android:textSize="@dimen/text_run_diagnostics"-->
-    <!--        android:textStyle="bold"-->
-    <!--        android:visibility="visible"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/ripple_view"-->
-    <!--        app:layout_constraintEnd_toEndOf="@+id/ripple_view"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/ripple_view"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/ripple_view" />-->
-
-    <!--    <androidx.constraintlayout.widget.Guideline-->
-    <!--        android:id="@+id/guideline3"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="vertical"-->
-    <!--        app:layout_constraintGuide_percent="0.3" />-->
-
-    <!--    <androidx.constraintlayout.widget.Guideline-->
-    <!--        android:id="@+id/guideline2"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="vertical"-->
-    <!--        app:layout_constraintGuide_percent="0.7" />-->
-
-    <TextView
-        android:id="@+id/current_connection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/current_connection"
-        android:layout_marginBottom="@dimen/margin_extra_large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/current_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/testing_download"
-        android:textSize="@dimen/text_large"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/meter_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/testing_anim"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:lottie_rawRes="@raw/testing"
-        app:lottie_loop="true"
-        app:layout_constraintDimensionRatio="2:1"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/current_connection"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_test" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/meter_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/meter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_meter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/needle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:rotation="270"
-            android:src="@drawable/ic_meter_needle"
-            app:layout_constraintBottom_toBottomOf="@+id/meter"
-            app:layout_constraintEnd_toEndOf="@+id/meter"
-            app:layout_constraintStart_toStartOf="@+id/meter"
-            app:layout_constraintTop_toTopOf="@+id/meter" />
 
         <TextView
-            android:id="@+id/speed"
+            android:id="@+id/heder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:text=""
-            android:textSize="@dimen/text_large"
-            app:layout_constraintBottom_toBottomOf="@+id/meter"
-            app:layout_constraintEnd_toEndOf="@+id/meter"
-            app:layout_constraintStart_toStartOf="@+id/meter" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/_20sdp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/datametartype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_250sdp"
+            android:text="MEGABIT PER SECOND"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/_10sdp"
+            android:visibility="invisible"></TextView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/test_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_225sdp"
+            android:layout_marginTop="@dimen/_65sdp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/ripple_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerInside"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/button_ripple" />
+
+            <TextView
+                android:id="@+id/startButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/button_run_diagnostics_background"
+                android:clickable="true"
+                android:elevation="1dp"
+                android:gravity="center"
+                android:padding="@dimen/padding_medium"
+                android:text="@string/run_diagnostics"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/text_run_diagnostics"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/ripple_view"
+                app:layout_constraintEnd_toEndOf="@+id/ripple_view"
+                app:layout_constraintStart_toStartOf="@+id/ripple_view"
+                app:layout_constraintTop_toTopOf="@+id/ripple_view" />
+
+
+            <ProgressBar
+                android:id="@+id/diagnostics_running"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:scaleX="1.25"
+                android:scaleY="1.25"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/ripple_view"
+                app:layout_constraintEnd_toEndOf="@+id/ripple_view"
+                app:layout_constraintStart_toStartOf="@+id/ripple_view"
+                app:layout_constraintTop_toTopOf="@+id/ripple_view" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.7" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_250sdp"
+            android:layout_marginTop="@dimen/_65sdp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/ic_meter" />
+
+            <ImageView
+                android:id="@+id/barImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/ic_meter_needle" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/diagnostics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_325sdp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="2.3"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:src="@drawable/klopus" />
+                        </LinearLayout>
+                        <!--                    <TextView-->
+                        <!--                        android:id="@+id/fhost"-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:layout_marginTop="15dp"-->
+                        <!--                        android:text="SERVER"-->
+                        <!--                        android:textAlignment="center"-->
+                        <!--                        android:textColor="@color/subtext"-->
+                        <!--                        android:textSize="@dimen/_12sdp"-->
+                        <!--                        android:textStyle="normal|bold" />-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/host"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="4dp"
+                                android:enabled="false"
+                                android:text="- - -"
+                                android:textColor="#2196F3"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/location"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="- - -"
+                                android:textColor="@color/text_primary"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/fping"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text="PING"
+                            android:textColor="#2196F3"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="normal|bold" />
+
+                        <TextView
+                            android:id="@+id/pingTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="0 ms"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/_10sdp" />
+
+                    </LinearLayout>
+
+                    <!--                <LinearLayout-->
+                    <!--                    android:layout_width="0dp"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_weight="1"-->
+                    <!--                    android:orientation="vertical">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginTop="15dp"-->
+                    <!--                        android:text="LOCATION"-->
+                    <!--                        android:id="@+id/flocation"-->
+                    <!--                        android:textAlignment="center"-->
+                    <!--                        android:textColor="@color/subtext"-->
+                    <!--                        android:textSize="@dimen/_12sdp"-->
+                    <!--                        android:textStyle="normal|bold" />-->
+
+                    <!--                  -->
+
+                    <!--                </LinearLayout>-->
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text="DOWNLOAD"
+                            android:textAlignment="center"
+                            android:textColor="#2196F3"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="normal|bold" />
+
+                        <TextView
+                            android:id="@+id/downloadTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="0 Mbps"
+                            android:textAlignment="center"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/_17sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text="UPLOAD"
+                            android:textAlignment="center"
+                            android:textColor="#2196F3"
+                            android:textSize="@dimen/_15sdp"
+                            android:textStyle="normal|bold" />
+
+                        <TextView
+                            android:id="@+id/uploadTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="0 Mbps"
+                            android:textAlignment="center"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/_17sdp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

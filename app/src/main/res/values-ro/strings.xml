@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Monitorizare date</string>
+    <string name="app_name">Monitor de date pro</string>
     <string name="appwidget_text">EXEMPLU</string>
     <string name="add_widget">Adăugare widget</string>
     <string name="notification_mobile_data_usage">Date mobile: %1$s</string>

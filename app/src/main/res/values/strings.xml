@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">Data Monitor</string>
+    <string name="app_name">Data Monitor pro</string>
     <string name="appwidget_text">Example</string>
     <string name="add_widget">Add widget</string>
 
 
     <string name="reset_time" translatable="false">%1$d/%2$d/%3$d %4$d:%5$d:00</string>
+    <string name="reset_time2" translatable="false">%1$d/%2$d/%3$d %4$d:%5$d:%6$d:00</string>
     <string name="widget_mobile_data_usage" translatable="false">%1$s %2$s</string>
     <string name="notification_mobile_data_usage">Mobile data: %1$s</string>
     <string name="notification_wifi_data_usage">Wi-Fi: %1$s</string>
@@ -164,7 +165,7 @@
     <string name="label_data_remaining">%1$s remaining</string>
     <string name="label_data_remaining_used_excess">%1$s extra used</string>
     <string name="disable_battery_optimisation">Turn off battery optimisation</string>
-    <string name="disable_battery_optimisation_body">Prevents killing Data Monitor when running in the background.\nOtherwise values might be incorrect.</string>
+    <string name="disable_battery_optimisation_body">Prevents killing Data Monitor pro when running in the background.\nOtherwise values might be incorrect.</string>
     <string name="extra_optimisation_tips">Extra optimisation tips</string>
     <string name="oem_battery_settings">OEM battery settings</string>
     <string name="action_next">Next</string>

@@ -2,7 +2,7 @@
 <resources>
     <string name="appwidget_text">Örnek</string>
     <string name="notification_mobile_data_usage">Mobil veri: %1$s</string>
-    <string name="app_name">Veri Monitörü</string>
+    <string name="app_name">Veri izleme yanlısı</string>
     <string name="add_widget">Widget ekle</string>
     <string name="home_mobile_data_received">%1$s
 \nAlınan</string>

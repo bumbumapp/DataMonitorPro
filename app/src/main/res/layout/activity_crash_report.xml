@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.activities.CrashReportActivity">
+   >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -107,11 +107,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout14">
 
-            <fragment
-                android:id="@+id/send_report_view"
-                class="com.drnoob.datamonitor.ui.activities.CrashReportActivity$SendReportFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+       
 
         </LinearLayout>
 

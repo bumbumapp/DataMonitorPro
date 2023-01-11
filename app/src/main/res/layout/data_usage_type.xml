@@ -44,7 +44,6 @@
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
         android:buttonTint="@color/primary"
-        android:checked="true"
         android:paddingLeft="@dimen/margin_large"
         android:text="@string/label_mobile_data" />
 
@@ -54,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
+        android:checked="true"
         android:buttonTint="@color/primary"
         android:paddingLeft="@dimen/margin_large"
         android:text="@string/label_wifi" />

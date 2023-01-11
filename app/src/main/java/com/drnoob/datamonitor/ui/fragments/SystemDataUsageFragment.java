@@ -165,6 +165,9 @@ public class SystemDataUsageFragment extends Fragment {
                     case SESSION_YESTERDAY:
                         sessions.check(R.id.session_yesterday);
                         break;
+//                    case SESSION_THIS_WEEK:
+//                        sessions.check(R.id.session_week);
+//                        break;
 
                     case SESSION_THIS_MONTH:
                         sessions.check(R.id.session_this_month);
@@ -449,6 +452,9 @@ public class SystemDataUsageFragment extends Fragment {
         else if (selectedSession.equalsIgnoreCase(sessionYesterday)) {
             session = SESSION_YESTERDAY;
         }
+//        else if (selectedSession.equalsIgnoreCase(sessionThisWeeek)) {
+//            session = SESSION_THIS_WEEK;
+//        }
         else if (selectedSession.equalsIgnoreCase(sessionThisMonth)) {
             session = SESSION_THIS_MONTH;
         }
@@ -458,6 +464,7 @@ public class SystemDataUsageFragment extends Fragment {
         else if (selectedSession.equalsIgnoreCase(sessionThisYear)) {
             session = SESSION_THIS_YEAR;
         }
+
         else if (selectedSession.equalsIgnoreCase(sessionAllTime)) {
             session = SESSION_ALL_TIME;
         }
@@ -495,6 +502,9 @@ public class SystemDataUsageFragment extends Fragment {
             case SESSION_YESTERDAY:
                 mSession.setText(mContext.getString(R.string.label_yesterday));
                 break;
+//            case SESSION_THIS_WEEK:
+//                mSession.setText(mContext.getString(R.string.label_this_week));
+//                break;
 
             case SESSION_THIS_MONTH:
                 mSession.setText(mContext.getString(R.string.label_this_month));
