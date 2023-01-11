@@ -27,24 +27,10 @@ Track all your data usage - at one place
 - No ads or In-app purchases
 - Light-weight and Open Source
 
-## Screenshots
-![Home Part 1](https://github.com/itsdrnoob/DataMonitor/blob/0afb0f0ff795b3df153dc80622b55d4b42748bf0/images/ss_part_1.png)<br><br>
-![Home Part 2](https://github.com/itsdrnoob/DataMonitor/blob/0afb0f0ff795b3df153dc80622b55d4b42748bf0/images/ss_part_2.png)
-<br><br>
 
-## Download
-[<img alt="Get it on Google Play" height="85" src="./images/google-play-badge.png">](https://play.google.com/store/apps/details?id=com.drnoob.datamonitor)<br><br>
-[<img alt="Get it on F-Droid" height="85" src="./images/f-droid-badge.png">](https://f-droid.org/packages/com.drnoob.datamonitor/)<br><br>
-[<img alt="Get it on AFH" height="50" src="https://www.androidfilehost.com/images/afh.png">](https://www.androidfilehost.com/?fid=14871746926876844877)<br><br>
-Or check <a href = "https://github.com/itsdrnoob/DataMonitor/releases/latest">releases</a>
-
-## Changelog
-View the complete changelog <a href = "CHANGELOG.md">here</a>
 
 ## License
 Check app license <a href = "LICENSE">here</a>
 
-## Contribute
-Click <a href = "CONTRIBUTING.md">here</a> to learn how to contribute.
 
 
