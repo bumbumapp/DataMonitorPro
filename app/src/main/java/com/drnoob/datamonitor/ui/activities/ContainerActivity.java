@@ -107,11 +107,6 @@ public class ContainerActivity extends AppCompatActivity {
                 title = getString(R.string.contributors);
                 break;
 
-            case DONATE_FRAGMENT:
-                fragment = new DonateFragment();
-                title = getString(R.string.donate);
-                break;
-
 
             case APP_LICENSE_FRAGMENT:
                 fragment = new LicenseFragment();

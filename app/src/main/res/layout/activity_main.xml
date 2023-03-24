@@ -74,10 +74,21 @@
         app:itemHorizontalTranslationEnabled="true"
         app:itemIconTint="@color/bottom_navbar_icon_color_selector"
         app:itemTextColor="@color/bottom_navbar_icon_color_selector"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu"/>
-
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        ads:adSize="FULL_BANNER"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:adUnitId="@string/banner_id">
+    </com.google.android.gms.ads.AdView>
 </androidx.constraintlayout.widget.ConstraintLayout>

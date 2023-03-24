@@ -53,6 +53,9 @@ public class Values {
     public static final int TYPE_MOBILE_DATA = 0x0046;
     public static final int TYPE_WIFI = 0x0050;
 
+    public static int COUNT_OF_CLICKS=0;
+    public static int TIMES=6;
+
     public static final String DATA_USAGE_VALUE = "data_usage_value";
     public static final String DATA_USAGE_SESSION = "data_usage_session";
     public static final String DATA_USAGE_TYPE = "data_usage_type";

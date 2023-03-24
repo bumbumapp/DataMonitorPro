@@ -19,6 +19,7 @@
 
 package com.drnoob.datamonitor.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -28,12 +29,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,11 +66,18 @@ import com.drnoob.datamonitor.Widget.DataUsageWidget;
 import com.drnoob.datamonitor.adapters.data.AppDataUsageModel;
 import com.drnoob.datamonitor.core.task.DatabaseHandler;
 import com.drnoob.datamonitor.databinding.ActivityMainBinding;
+import com.drnoob.datamonitor.ui.fragments.LicenseFragment;
 import com.drnoob.datamonitor.utils.SharedPreferences;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -83,6 +95,7 @@ import static com.drnoob.datamonitor.core.Values.APP_DATA_USAGE_WARNING_CHANNEL_
 import static com.drnoob.datamonitor.core.Values.APP_DATA_USAGE_WARNING_CHANNEL_NAME;
 import static com.drnoob.datamonitor.core.Values.APP_LANGUAGE_CODE;
 import static com.drnoob.datamonitor.core.Values.APP_LANGUAGE_FRAGMENT;
+import static com.drnoob.datamonitor.core.Values.APP_LICENSE_FRAGMENT;
 import static com.drnoob.datamonitor.core.Values.APP_THEME;
 import static com.drnoob.datamonitor.core.Values.APP_THEME_SUMMARY;
 import static com.drnoob.datamonitor.core.Values.BOTTOM_NAVBAR_ITEM_SETTINGS;
@@ -239,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
+        loadBanners();
 
     }
 
@@ -366,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch (item.getItemId()) {
@@ -474,9 +488,35 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ContainerActivity.class)
                         .putExtra(GENERAL_FRAGMENT_ID, APP_LANGUAGE_FRAGMENT));
                 break;
+            case R.id.repo:
+                String url = "https://github.com/itsdrnoob/DataMonitor";
+                Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(urlIntent);
+                break;
+
+            case R.id.app_licence:
+                startActivity(new Intent(this, ContainerActivity.class)
+                        .putExtra(GENERAL_FRAGMENT_ID, APP_LICENSE_FRAGMENT));
+                break;
+
+
+
+
+
 
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void loadBanners() {
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

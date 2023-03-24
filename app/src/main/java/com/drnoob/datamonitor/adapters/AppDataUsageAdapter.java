@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,12 @@ import com.drnoob.datamonitor.R;
 import com.drnoob.datamonitor.adapters.data.AppDataUsageModel;
 import com.drnoob.datamonitor.ui.activities.ContainerActivity;
 import com.drnoob.datamonitor.utils.NetworkStatsHelper;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.skydoves.progressview.ProgressView;
 
@@ -54,11 +61,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.drnoob.datamonitor.Common.isAppInstalled;
+import static com.drnoob.datamonitor.core.Values.COUNT_OF_CLICKS;
 import static com.drnoob.datamonitor.core.Values.DAILY_DATA_HOME_ACTION;
 import static com.drnoob.datamonitor.core.Values.DATA_USAGE_SESSION;
 import static com.drnoob.datamonitor.core.Values.DATA_USAGE_SYSTEM;
 import static com.drnoob.datamonitor.core.Values.DATA_USAGE_TYPE;
 import static com.drnoob.datamonitor.core.Values.GENERAL_FRAGMENT_ID;
+import static com.drnoob.datamonitor.core.Values.TIMES;
 import static com.drnoob.datamonitor.utils.NetworkStatsHelper.formatData;
 
 public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapter.AppDataUsageViewHolder> {
@@ -69,6 +78,7 @@ public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapte
     private Boolean animate;
     private Boolean fromHome;
     private Activity mActivity;
+    private InterstitialAd mInterstitialAd;
 
     public AppDataUsageAdapter(List<AppDataUsageModel> mList, Context mContext) {
         this.mList = mList;
@@ -130,103 +140,25 @@ public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapte
 
         holder.mAppName.setText(model.getAppName());
         holder.mDataUsage.setText(totalDataUsage);
-
+        loadInterstitialads(holder.itemView.getContext());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (model.getPackageName().equals(mContext.getString(R.string.package_system))) {
-                    Intent intent = new Intent(mContext, ContainerActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(GENERAL_FRAGMENT_ID, DATA_USAGE_SYSTEM);
-                    intent.putExtra(DATA_USAGE_SESSION, model.getSession());
-                    intent.putExtra(DATA_USAGE_TYPE, model.getType());
-                    intent.putExtra(DAILY_DATA_HOME_ACTION, getFromHome());
-                    mContext.startActivity(intent);
-                }
-//                else {
-//                    LoadAppDetails loadAppDetails = new LoadAppDetails(model);
-//                    if (!MainActivity.isDataLoading()) {
-//                        loadAppDetails.execute();
-//                    }
-//                }
-
-
-                else {
-                    BottomSheetDialog dialog = new BottomSheetDialog(mContext, R.style.BottomSheet);
-                    View dialogView = LayoutInflater.from(mContext).inflate(R.layout.app_detail_view, null);
-                    dialog.setContentView(dialogView);
-
-                    ImageView appIcon = dialogView.findViewById(R.id.icon);
-                    TextView appName = dialogView.findViewById(R.id.name);
-                    TextView dataSent = dialogView.findViewById(R.id.data_sent);
-                    TextView dataReceived = dialogView.findViewById(R.id.data_received);
-                    TextView appPackage = dialogView.findViewById(R.id.app_package);
-                    TextView appUid = dialogView.findViewById(R.id.app_uid);
-                    TextView appScreenTime = dialogView.findViewById(R.id.app_screen_time);
-                    TextView appBackgroundTime = dialogView.findViewById(R.id.app_background_time);
-                    TextView appSettings = dialogView.findViewById(R.id.app_open_settings);
-
-                    appName.setText(model.getAppName());
-                    String packageName = mContext.getResources().getString(R.string.app_label_package_name,
-                            model.getPackageName());
-                    String uid = mContext.getResources().getString(R.string.app_label_uid,
-                            model.getUid());
-
-                    appPackage.setText(packageName);
-                    appUid.setText(uid);
-
-                    if (model.getPackageName() != mContext.getString(R.string.package_tethering)) {
-                        appScreenTime.setText(mContext.getString(R.string.app_label_screen_time,
-                                mContext.getString(R.string.label_loading)));
-                        appBackgroundTime.setText(mContext.getString(R.string.app_label_background_time,
-                                mContext.getString(R.string.label_loading)));
-                        LoadScreenTime loadScreenTime = new LoadScreenTime(model, getActivity(), appScreenTime, appBackgroundTime);
-                        loadScreenTime.execute();
+                COUNT_OF_CLICKS+=1;
+                if (COUNT_OF_CLICKS%TIMES==0){
+                    if (mInterstitialAd!=null){
+                        mInterstitialAd.show(mActivity);
+                        stopAds(model);
                     }
                     else {
-                        appScreenTime.setVisibility(View.GONE);
-                        appBackgroundTime.setVisibility(View.GONE);
+                        showDialog(model);
                     }
-
-                    dataSent.setText(formatData(model.getSentMobile(), model.getReceivedMobile())[0]);
-                    dataReceived.setText(formatData(model.getSentMobile(), model.getReceivedMobile())[1]);
-
-                    appSettings.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            Uri uri = Uri.fromParts("package", model.getPackageName(), null);
-                            intent.setData(uri);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            mContext.startActivity(intent);
-                        }
-                    });
-
-                    try {
-                        if (model.getPackageName().equals(mContext.getString(R.string.package_tethering))) {
-                            appIcon.setImageResource(R.drawable.hotspot);
-                            appPackage.setVisibility(View.GONE);
-                            appUid.setVisibility(View.GONE);
-                            appSettings.setVisibility(View.GONE);
-                        } else if (model.getPackageName().equals(mContext.getString(R.string.package_removed))) {
-                            appIcon.setImageResource(R.drawable.deleted_apps);
-                            appPackage.setVisibility(View.GONE);
-                            appUid.setVisibility(View.GONE);
-                            appSettings.setVisibility(View.GONE);
-                        } else {
-                            if (isAppInstalled(mContext, model.getPackageName())) {
-                                appIcon.setImageDrawable(mContext.getPackageManager().getApplicationIcon(model.getPackageName()));
-                            } else {
-                                appIcon.setImageResource(R.drawable.deleted_apps);
-                            }
-                        }
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                    dialog.show();
+                }else{
+                    showDialog(model);
                 }
-            }
+
+                }
+
         });
 
     }
@@ -287,7 +219,149 @@ public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapte
         }
 
     }
+    private void stopAds(AppDataUsageModel model) {
+        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+            @Override
+            public void onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d(TAG, "Ad was clicked.");
+            }
 
+            @Override
+            public void onAdDismissedFullScreenContent() {
+                showDialog(model);
+                mInterstitialAd = null;
+                loadInterstitialads(mContext);
+            }
+
+            @Override
+            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                // Called when ad fails to show.
+                Log.e(TAG, "Ad failed to show fullscreen content.");
+                mInterstitialAd = null;
+            }
+
+            @Override
+            public void onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d(TAG, "Ad recorded an impression.");
+            }
+
+            @Override
+            public void onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d(TAG, "Ad showed fullscreen content.");
+            }
+        });
+    }
+
+    private void loadInterstitialads(Context context) {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(context,context.getString(R.string.interstial_id), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "onAdLoaded");
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.d(TAG, loadAdError.toString());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
+
+    private void showDialog(AppDataUsageModel model){
+        if (model.getPackageName().equals(mContext.getString(R.string.package_system))) {
+            Intent intent = new Intent(mContext, ContainerActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(GENERAL_FRAGMENT_ID, DATA_USAGE_SYSTEM);
+            intent.putExtra(DATA_USAGE_SESSION, model.getSession());
+            intent.putExtra(DATA_USAGE_TYPE, model.getType());
+            intent.putExtra(DAILY_DATA_HOME_ACTION, getFromHome());
+            mContext.startActivity(intent);
+        }else {
+            BottomSheetDialog dialog = new BottomSheetDialog(mContext, R.style.BottomSheet);
+            View dialogView = LayoutInflater.from(mContext).inflate(R.layout.app_detail_view, null);
+            dialog.setContentView(dialogView);
+
+            ImageView appIcon = dialogView.findViewById(R.id.icon);
+            TextView appName = dialogView.findViewById(R.id.name);
+            TextView dataSent = dialogView.findViewById(R.id.data_sent);
+            TextView dataReceived = dialogView.findViewById(R.id.data_received);
+            TextView appPackage = dialogView.findViewById(R.id.app_package);
+            TextView appUid = dialogView.findViewById(R.id.app_uid);
+            TextView appScreenTime = dialogView.findViewById(R.id.app_screen_time);
+            TextView appBackgroundTime = dialogView.findViewById(R.id.app_background_time);
+            TextView appSettings = dialogView.findViewById(R.id.app_open_settings);
+
+            appName.setText(model.getAppName());
+            String packageName = mContext.getResources().getString(R.string.app_label_package_name,
+                    model.getPackageName());
+            String uid = mContext.getResources().getString(R.string.app_label_uid,
+                    model.getUid());
+
+            appPackage.setText(packageName);
+            appUid.setText(uid);
+
+            if (model.getPackageName() != mContext.getString(R.string.package_tethering)) {
+                appScreenTime.setText(mContext.getString(R.string.app_label_screen_time,
+                        mContext.getString(R.string.label_loading)));
+                appBackgroundTime.setText(mContext.getString(R.string.app_label_background_time,
+                        mContext.getString(R.string.label_loading)));
+                LoadScreenTime loadScreenTime = new LoadScreenTime(model, getActivity(), appScreenTime, appBackgroundTime);
+                loadScreenTime.execute();
+            } else {
+                appScreenTime.setVisibility(View.GONE);
+                appBackgroundTime.setVisibility(View.GONE);
+            }
+
+            dataSent.setText(formatData(model.getSentMobile(), model.getReceivedMobile())[0]);
+            dataReceived.setText(formatData(model.getSentMobile(), model.getReceivedMobile())[1]);
+
+            appSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", model.getPackageName(), null);
+                    intent.setData(uri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
+            });
+
+            try {
+                if (model.getPackageName().equals(mContext.getString(R.string.package_tethering))) {
+                    appIcon.setImageResource(R.drawable.hotspot);
+                    appPackage.setVisibility(View.GONE);
+                    appUid.setVisibility(View.GONE);
+                    appSettings.setVisibility(View.GONE);
+                } else if (model.getPackageName().equals(mContext.getString(R.string.package_removed))) {
+                    appIcon.setImageResource(R.drawable.deleted_apps);
+                    appPackage.setVisibility(View.GONE);
+                    appUid.setVisibility(View.GONE);
+                    appSettings.setVisibility(View.GONE);
+                } else {
+                    if (isAppInstalled(mContext, model.getPackageName())) {
+                        appIcon.setImageDrawable(mContext.getPackageManager().getApplicationIcon(model.getPackageName()));
+                    } else {
+                        appIcon.setImageResource(R.drawable.deleted_apps);
+                    }
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            dialog.show();
+        }
+    }
     private String formatTime(Float minutes) {
         if (minutes < 1 && minutes > 0) {
             return "Less than a minute";

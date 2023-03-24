@@ -18,6 +18,9 @@
  */
 
 package com.drnoob.datamonitor.ui.fragments;
+import static com.drnoob.datamonitor.core.Values.COUNT_OF_CLICKS;
+import static com.drnoob.datamonitor.core.Values.TIMES;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -58,6 +61,12 @@ import com.drnoob.datamonitor.Speed.PingTest;
 import com.drnoob.datamonitor.ui.activities.MainActivity;
 import com.drnoob.datamonitor.ui.activities.ServersActivity;
 import com.drnoob.datamonitor.utils.ServersPreference;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -84,6 +93,7 @@ public class NetworkDiagnosticsFragment extends Fragment {
     private ConstraintLayout diagnosticsView;
     private ProgressBar diagnosticsRunning;
     private RelativeLayout relativeLayout;
+    private InterstitialAd mInterstitialAd;
     GetSpeedTestHostsHandler getSpeedTestHostsHandler = null;
     HashSet<String> tempBlackList;
     private TextView hostname, locationname, type_of_network;
@@ -190,7 +200,7 @@ public class NetworkDiagnosticsFragment extends Fragment {
         fdownload = view.findViewById(R.id.textView2); /**download name textview*/
         fupload = view.findViewById(R.id.textView3); /**upload name textview*/
         /**set custom font id's*/
-
+       loadInterstitialads();
 
 
 
@@ -647,14 +657,19 @@ public class NetworkDiagnosticsFragment extends Fragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            startButton.setEnabled(true);
-                            diagnosticsView.setVisibility(View.VISIBLE);
-                            relativeLayout.setVisibility(View.GONE);
-                            mdatametartype.setVisibility(View.INVISIBLE);
-                            startButton.setText("Restart Test");
-                            mhead.setText("");
-                            diagnosticsRunning.setVisibility(View.INVISIBLE);
-                            rippleView.setVisibility(View.VISIBLE);
+                            COUNT_OF_CLICKS+=1;
+                            if (COUNT_OF_CLICKS%TIMES==0){
+                                if(mInterstitialAd!=null){
+                                    mInterstitialAd.show(requireActivity());
+                                    stopAds();
+                                }
+                                else {
+                                    RESTART();
+                                }
+                            }else {
+                                RESTART();
+                            }
+
 //                            startButton.setBackground(getResources().getDrawable(R.drawable.button_run_diagnostics_background, null));
 
                         }
@@ -665,6 +680,18 @@ public class NetworkDiagnosticsFragment extends Fragment {
             }
         }).start();
     }
+
+    private void RESTART() {
+        startButton.setEnabled(true);
+        diagnosticsView.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.GONE);
+        mdatametartype.setVisibility(View.INVISIBLE);
+        startButton.setText("Restart Test");
+        mhead.setText("");
+        diagnosticsRunning.setVisibility(View.INVISIBLE);
+        rippleView.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -673,6 +700,65 @@ public class NetworkDiagnosticsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    private void stopAds() {
+        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+            @Override
+            public void onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d(TAG, "Ad was clicked.");
+            }
+
+            @Override
+            public void onAdDismissedFullScreenContent() {
+                RESTART();
+                mInterstitialAd = null;
+                loadInterstitialads();
+
+            }
+
+            @Override
+            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                // Called when ad fails to show.
+                Log.e(TAG, "Ad failed to show fullscreen content.");
+                mInterstitialAd = null;
+            }
+
+            @Override
+            public void onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d(TAG, "Ad recorded an impression.");
+            }
+
+            @Override
+            public void onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d(TAG, "Ad showed fullscreen content.");
+            }
+        });
+    }
+
+    private void loadInterstitialads() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(requireContext(),getString(R.string.interstial_id), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "onAdLoaded");
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.d(TAG, loadAdError.toString());
+                        mInterstitialAd = null;
+                    }
+                });
     }
 
 

@@ -274,7 +274,6 @@ public class SetupActivity extends AppCompatActivity {
             View view = inflater.inflate(R.layout.fragment_disable_battery_optimisation, container, false);
 
             TextView disableBatteryOptimisation = view.findViewById(R.id.disable_battery_optimisation);
-            TextView extraOptimisation = view.findViewById(R.id.extra_optimisation);
             TextView oemSettings = view.findViewById(R.id.oem_battery_settings);
             TextView oemSkinWarning = view.findViewById(R.id.oem_skin_warning);
             TextView next = view.findViewById(R.id.next);
@@ -310,25 +309,6 @@ public class SetupActivity extends AppCompatActivity {
 
             String oem = Build.BRAND;
             
-            extraOptimisation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    Uri uri = null;
-                    if (oem.equalsIgnoreCase("android") || oem.equalsIgnoreCase("generic")) {
-                        uri = Uri.parse("https://dontkillmyapp.com" + "/google");
-                    }
-                    else if (oem.equalsIgnoreCase("redmi")) {
-                        uri = Uri.parse("https://dontkillmyapp.com" + "/xiaomi");
-                    }
-                    else {
-                        uri = Uri.parse("https://dontkillmyapp.com" + "/" + oem.toLowerCase());
-                    }
-
-                    intent.setData(uri);
-                    startActivity(intent);
-                }
-            });
 
             oemSettings.setOnClickListener(new View.OnClickListener() {
                 @Override
