@@ -489,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
                         .putExtra(GENERAL_FRAGMENT_ID, APP_LANGUAGE_FRAGMENT));
                 break;
             case R.id.repo:
-                String url = "https://github.com/itsdrnoob/DataMonitor";
+                String url = "https://github.com/bumbumapp/DataMonitorPro";
                 Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(urlIntent);
                 break;
