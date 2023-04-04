@@ -19,6 +19,7 @@
 
 package com.drnoob.datamonitor.core.task;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -62,7 +63,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addData(AppDataUsageModel model) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("uid", model.getUid());
         values.put("app_name", model.getAppName());
         values.put("package_name", model.getPackageName());
         values.put("system_app", model.isSystemApp());
@@ -79,6 +79,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    @SuppressLint("Range")
     public List<AppDataUsageModel> getUsageList() {
         List<AppDataUsageModel> mList = new ArrayList<>();
         String selectQuery = "SELECT * FROM app_data_usage";
@@ -131,6 +132,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
+    @SuppressLint("Range")
     public List<AppDataUsageModel> getAppMonitorList() {
         List<AppDataUsageModel> mList = new ArrayList<>();
         String selectQuery = "SELECT * FROM app_data_monitor_list";
@@ -140,7 +142,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 AppDataUsageModel model = new AppDataUsageModel();
-                model.setUid(cursor.getInt(cursor.getColumnIndex("uid")));
                 model.setAppName(cursor.getString(cursor.getColumnIndex("app_name")));
                 model.setPackageName(cursor.getString(cursor.getColumnIndex("package_name")));
                 model.setIsSystemApp(cursor.getInt(cursor.getColumnIndex("system_app")) != 0);

@@ -53,6 +53,7 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.drnoob.datamonitor.R;
+import com.drnoob.datamonitor.Timers;
 import com.drnoob.datamonitor.Widget.DataUsageWidget;
 import com.drnoob.datamonitor.adapters.data.OverviewModel;
 import com.drnoob.datamonitor.ui.activities.ContainerActivity;
@@ -82,7 +83,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.drnoob.datamonitor.Common.setDataPlanNotification;
-import static com.drnoob.datamonitor.core.Values.COUNT_OF_CLICKS;
 import static com.drnoob.datamonitor.core.Values.DAILY_DATA_HOME_ACTION;
 import static com.drnoob.datamonitor.core.Values.DATA_LIMIT;
 import static com.drnoob.datamonitor.core.Values.DATA_RESET;
@@ -99,7 +99,7 @@ import static com.drnoob.datamonitor.core.Values.DATA_USAGE_TYPE;
 import static com.drnoob.datamonitor.core.Values.GENERAL_FRAGMENT_ID;
 import static com.drnoob.datamonitor.core.Values.LIMIT;
 import static com.drnoob.datamonitor.core.Values.SESSION_TODAY;
-import static com.drnoob.datamonitor.core.Values.TIMES;
+import static com.drnoob.datamonitor.core.Values.TIMER_FINISHED;
 import static com.drnoob.datamonitor.core.Values.TYPE_MOBILE_DATA;
 import static com.drnoob.datamonitor.core.Values.TYPE_WIFI;
 import static com.drnoob.datamonitor.utils.NetworkStatsHelper.formatData;
@@ -248,8 +248,7 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
         mSetupDataPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                COUNT_OF_CLICKS+=1;
-                if (COUNT_OF_CLICKS % TIMES == 0){
+                if (TIMER_FINISHED){
                     if (mInterstitialAd != null) {
                         mInterstitialAd.show(requireActivity());
                         stopAds(0);
@@ -265,8 +264,7 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
         mMobileDataUsageToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                COUNT_OF_CLICKS+=1;
-                if (COUNT_OF_CLICKS%TIMES==0){
+                if (TIMER_FINISHED){
                     if (mInterstitialAd!=null){
                         mInterstitialAd.show(requireActivity());
                         stopAds(TYPE_MOBILE_DATA);
@@ -283,8 +281,7 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
         mWifiUsageToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                COUNT_OF_CLICKS+=1;
-                if (COUNT_OF_CLICKS%TIMES==0){
+                if (TIMER_FINISHED){
                     if (mInterstitialAd!=null){
                         mInterstitialAd.show(requireActivity());
                         stopAds(TYPE_WIFI);
@@ -530,6 +527,8 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
                     setDataPlan();
                 }
                 mInterstitialAd = null;
+                Timers.timer().start();
+                TIMER_FINISHED=false;
                 loadInterstitialads();
 
             }

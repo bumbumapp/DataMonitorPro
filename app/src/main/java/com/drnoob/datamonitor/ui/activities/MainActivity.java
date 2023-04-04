@@ -62,6 +62,7 @@ import androidx.preference.PreferenceManager;
 
 import com.drnoob.datamonitor.BuildConfig;
 import com.drnoob.datamonitor.R;
+import com.drnoob.datamonitor.Timers;
 import com.drnoob.datamonitor.Widget.DataUsageWidget;
 import com.drnoob.datamonitor.adapters.data.AppDataUsageModel;
 import com.drnoob.datamonitor.core.task.DatabaseHandler;
@@ -84,6 +85,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
 
 import static com.drnoob.datamonitor.Common.isAppInstalled;
 import static com.drnoob.datamonitor.Common.isReadPhoneStateGranted;
@@ -116,6 +118,7 @@ import static com.drnoob.datamonitor.core.Values.READ_PHONE_STATE_DISABLED;
 import static com.drnoob.datamonitor.core.Values.SESSION_TODAY;
 import static com.drnoob.datamonitor.core.Values.SETUP_COMPLETED;
 import static com.drnoob.datamonitor.core.Values.SETUP_VALUE;
+import static com.drnoob.datamonitor.core.Values.TIMER_FINISHED;
 import static com.drnoob.datamonitor.core.Values.TYPE_MOBILE_DATA;
 import static com.drnoob.datamonitor.core.Values.UPDATE_VERSION;
 import static com.drnoob.datamonitor.core.Values.USAGE_ACCESS_DISABLED;
@@ -253,6 +256,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         loadBanners();
+        if (!TIMER_FINISHED){
+            Timers.timer().start();
+        }
 
     }
 
@@ -441,13 +447,7 @@ public class MainActivity extends AppCompatActivity {
                                 // Dark theme
                                 theme = "dark";
                                 summary = getString(R.string.dark_theme_summary);
-                                break;
-
-                            case R.id.theme_system:
-                                // System theme
-                                theme = "system";
-                                summary = getString(R.string.system_theme_summary);
-                                break;
+                                break;// System theme
 
                             default:
                                 // Set system theme as default
@@ -467,10 +467,6 @@ public class MainActivity extends AppCompatActivity {
 
                             case "light":
                                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                                break;
-
-                            case "system":
-                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                                 break;
 
                             default:

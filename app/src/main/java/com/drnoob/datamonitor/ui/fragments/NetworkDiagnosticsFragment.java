@@ -18,8 +18,8 @@
  */
 
 package com.drnoob.datamonitor.ui.fragments;
-import static com.drnoob.datamonitor.core.Values.COUNT_OF_CLICKS;
-import static com.drnoob.datamonitor.core.Values.TIMES;
+
+import static com.drnoob.datamonitor.core.Values.TIMER_FINISHED;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -58,6 +58,7 @@ import com.drnoob.datamonitor.Speed.DevilDownloadTest;
 import com.drnoob.datamonitor.Speed.GetSpeedTestHostsHandler;
 import com.drnoob.datamonitor.Speed.HttpUploadTest;
 import com.drnoob.datamonitor.Speed.PingTest;
+import com.drnoob.datamonitor.Timers;
 import com.drnoob.datamonitor.ui.activities.MainActivity;
 import com.drnoob.datamonitor.ui.activities.ServersActivity;
 import com.drnoob.datamonitor.utils.ServersPreference;
@@ -657,8 +658,7 @@ public class NetworkDiagnosticsFragment extends Fragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            COUNT_OF_CLICKS+=1;
-                            if (COUNT_OF_CLICKS%TIMES==0){
+                            if (TIMER_FINISHED){
                                 if(mInterstitialAd!=null){
                                     mInterstitialAd.show(requireActivity());
                                     stopAds();
@@ -713,6 +713,8 @@ public class NetworkDiagnosticsFragment extends Fragment {
             @Override
             public void onAdDismissedFullScreenContent() {
                 RESTART();
+                Timers.timer().start();
+                TIMER_FINISHED=false;
                 mInterstitialAd = null;
                 loadInterstitialads();
 

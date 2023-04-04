@@ -43,6 +43,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drnoob.datamonitor.R;
+import com.drnoob.datamonitor.Timers;
 import com.drnoob.datamonitor.adapters.data.AppDataUsageModel;
 import com.drnoob.datamonitor.ui.activities.ContainerActivity;
 import com.drnoob.datamonitor.utils.NetworkStatsHelper;
@@ -61,13 +62,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.drnoob.datamonitor.Common.isAppInstalled;
-import static com.drnoob.datamonitor.core.Values.COUNT_OF_CLICKS;
 import static com.drnoob.datamonitor.core.Values.DAILY_DATA_HOME_ACTION;
 import static com.drnoob.datamonitor.core.Values.DATA_USAGE_SESSION;
 import static com.drnoob.datamonitor.core.Values.DATA_USAGE_SYSTEM;
 import static com.drnoob.datamonitor.core.Values.DATA_USAGE_TYPE;
 import static com.drnoob.datamonitor.core.Values.GENERAL_FRAGMENT_ID;
-import static com.drnoob.datamonitor.core.Values.TIMES;
+import static com.drnoob.datamonitor.core.Values.TIMER_FINISHED;
 import static com.drnoob.datamonitor.utils.NetworkStatsHelper.formatData;
 
 public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapter.AppDataUsageViewHolder> {
@@ -144,8 +144,7 @@ public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                COUNT_OF_CLICKS+=1;
-                if (COUNT_OF_CLICKS%TIMES==0){
+                if (TIMER_FINISHED){
                     if (mInterstitialAd!=null){
                         mInterstitialAd.show(mActivity);
                         stopAds(model);
@@ -230,6 +229,8 @@ public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapte
             @Override
             public void onAdDismissedFullScreenContent() {
                 showDialog(model);
+                Timers.timer().start();
+                TIMER_FINISHED=false;
                 mInterstitialAd = null;
                 loadInterstitialads(mContext);
             }
