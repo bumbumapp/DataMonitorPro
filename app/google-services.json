@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1092186190087",
+    "project_id": "data-monitor-548de",
+    "storage_bucket": "data-monitor-548de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092186190087:android:51bb86dcf0bef4489f95a2",
+        "android_client_info": {
+          "package_name": "com.bumbumapps.datamonitorpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092186190087-kmt1tue0ui270fi8ec4dambcovcdv3vl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCMnTH-KlgTInB1vdiPM7J7yN4MjMLyME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092186190087-kmt1tue0ui270fi8ec4dambcovcdv3vl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -53,7 +53,7 @@ public class Values {
     public static final int TYPE_MOBILE_DATA = 0x0046;
     public static final int TYPE_WIFI = 0x0050;
 
-    public static boolean TIMER_FINISHED=false;
+    public static boolean TIMER_FINISHED=true;
 
     public static final String DATA_USAGE_VALUE = "data_usage_value";
     public static final String DATA_USAGE_SESSION = "data_usage_session";

@@ -75,6 +75,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 setTheme(R.style.Theme_DataMonitor);
                 setContentView(binding.getRoot());
                 setSupportActionBar(binding.mainToolbar);
+                FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
 
                 SharedPreferences.getUserPrefs(this).edit().putBoolean(SETUP_COMPLETED, true).apply();
 
@@ -256,9 +258,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         loadBanners();
-        if (!TIMER_FINISHED){
-            Timers.timer().start();
-        }
+
 
     }
 

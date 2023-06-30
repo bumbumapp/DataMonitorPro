@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -10,8 +12,8 @@ android {
         applicationId "com.bumbumapps.datamonitorpro"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 6
-        versionName '1.2.3'
+        versionCode 8
+        versionName '1.2.5'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,4 +64,9 @@ dependencies {
 
     //ads
     implementation 'com.google.android.gms:play-services-ads:21.5.0'
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 }
