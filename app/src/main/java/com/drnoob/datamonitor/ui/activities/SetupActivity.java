@@ -37,6 +37,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -82,7 +83,11 @@ public class SetupActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getColor(R.color.background));
         binding.setupProgress.setSaveEnabled(true);
         binding.setupProgress.setProgressFromPrevious(true);
-
+        if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.TIRAMISU){
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.POST_NOTIFICATIONS},600);
+            }
+        }
         getSupportFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
             @Override
             public void onFragmentStarted(@NonNull @NotNull FragmentManager fm, @NonNull @NotNull Fragment f) {

@@ -353,7 +353,5 @@
     <string name="paul" translatable="false">Paul</string>
     <string name="tobias_summary" translatable="false">German</string>
     <string name="tobias" translatable="false">Tobias</string>
-    <string name="banner_id">ca-app-pub-8444865753152507/5384998475</string>
-    <string name="banner_app_id">ca-app-pub-8444865753152507~7067962845</string>
-    <string name="interstial_id">ca-app-pub-8444865753152507/9776503779</string>
+
 </resources>
