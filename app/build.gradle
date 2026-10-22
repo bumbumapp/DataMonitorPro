@@ -5,21 +5,28 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "30.0.3"
+    namespace 'com.drnoob.datamonitor'
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.bumbumapps.datamonitorpro"
-        minSdkVersion 23
-        targetSdkVersion 33
-        versionCode 10
-        versionName '1.2.7'
+        minSdk 24
+        targetSdk 36
+        versionCode 11
+        versionName '1.3.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            // Google test ads in debug builds.
+            manifestPlaceholders = [admobAppId: "ca-app-pub-3940256099942544~3347511713"]
+            resValue "string", "admob_interstitial_id", "ca-app-pub-3940256099942544/1033173712"
+        }
         release {
+            manifestPlaceholders = [admobAppId: "ca-app-pub-8444865753152507~7067962845"]
+            resValue "string", "admob_interstitial_id", "ca-app-pub-8444865753152507/9776503779"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -27,46 +34,47 @@ android {
 
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    lint {
+        abortOnError false
     }
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation files('libs/achartengine-1.2.0.jar')
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.activity:activity:1.11.0'
+    implementation 'androidx.core:core:1.17.0'
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.navigation:navigation-fragment:2.5.2'
-    implementation 'androidx.navigation:navigation-ui:2.5.2'
+    implementation 'androidx.navigation:navigation-fragment:2.9.5'
+    implementation 'androidx.navigation:navigation-ui:2.9.5'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    /** */
-    implementation 'com.google.code.gson:gson:2.8.8'
-    implementation 'androidx.preference:preference:1.0.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+    implementation 'com.intuit.sdp:sdp-android:1.1.1'
+    implementation 'com.google.code.gson:gson:2.13.2'
+    implementation 'androidx.preference:preference:1.2.1'
     implementation "com.github.skydoves:progressview:1.1.2"
-    implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation 'com.airbnb.android:lottie:6.6.7'
     implementation 'com.github.antonKozyriatskyi:CircularProgressIndicator:1.3.0'
     implementation 'fr.bmartel:jspeedtest:1.32.1'
     implementation 'io.ipinfo:ipinfo-api:2.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
-    def multidex_version = "2.0.1"
-    implementation "androidx.multidex:multidex:$multidex_version"
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation "androidx.multidex:multidex:2.0.1"
 
     //ads
-    implementation 'com.google.android.gms:play-services-ads:21.5.0'
-    implementation platform('com.google.firebase:firebase-bom:31.2.2')
-
-    // Add the dependencies for the Crashlytics and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.android.gms:play-services-ads:25.5.0'
+    implementation 'com.google.android.ump:user-messaging-platform:4.0.0'
+    implementation platform('com.google.firebase:firebase-bom:35.1.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
 }
