@@ -81,6 +81,11 @@ public class AppDataUsageMonitor extends Service {
         }
     }
 
+    /** Null-safe: the monitored-apps pref is absent until the user adds an app limit. */
+    static boolean hasMonitoredApps(List<?> list) {
+        return list != null && !list.isEmpty();
+    }
+
     public static class AppDataMonitor extends BroadcastReceiver {
         List<AppDataUsageModel> mList = new ArrayList<>();
 
@@ -91,14 +96,14 @@ public class AppDataUsageMonitor extends Service {
             Gson gson = new Gson();
             String s = SharedPreferences.getAppDataLimitPrefs(context).getString("monitor_apps_list", null);
             List<AppDataUsageModel> list = gson.fromJson(s, type);
-            if (list.size() < 1) {
+            if (!hasMonitoredApps(list)) {
                 stopMonitor(context);
             }
             else {
                 for (int i = 0; i < list.size(); i++) {
                     String jsonText = SharedPreferences.getAppDataLimitPrefs(context).getString(list.get(i).getPackageName(), null);
-                    if (jsonText != null) {
-                        String[] data = gson.fromJson(jsonText, String[].class);
+                    String[] data = jsonText != null ? gson.fromJson(jsonText, String[].class) : null;
+                    if (data != null && data.length >= 3) {
                         model = list.get(i);
                         model.setDataLimit(data[1]);
                         model.setDataType(data[2]);
