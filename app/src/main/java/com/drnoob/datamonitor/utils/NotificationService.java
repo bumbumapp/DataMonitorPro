@@ -19,6 +19,8 @@
 
 package com.drnoob.datamonitor.utils;
 
+import com.drnoob.datamonitor.utils.PlatformCompat;
+
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -101,13 +103,13 @@ public class NotificationService extends Service {
             builder.setAutoCancel(false);
             builder.setGroup(DATA_USAGE_NOTIFICATION_NOTIFICATION_GROUP);
 
-            startForeground(DATA_USAGE_NOTIFICATION_ID, builder.build());
+            PlatformCompat.startForeground(this, DATA_USAGE_NOTIFICATION_ID, builder.build());
             startUpdater(getApplicationContext());
 
-            mAlarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis(), mUpdaterPendingIntent);
+            PlatformCompat.setExactSafe(mAlarmManager, AlarmManager.RTC, System.currentTimeMillis(), mUpdaterPendingIntent);
         }
         else {
-            onDestroy();
+            stopSelf();
         }
     }
 
@@ -122,7 +124,7 @@ public class NotificationService extends Service {
         intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         intentFilter.setPriority(100);
-        context.registerReceiver(updater, intentFilter);
+        PlatformCompat.registerReceiver(context, updater, intentFilter);
         Log.d(TAG, "startUpdater: started");
     }
 
@@ -253,7 +255,7 @@ public class NotificationService extends Service {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
             int elapsedTime = PreferenceManager.getDefaultSharedPreferences(context)
                     .getInt(NOTIFICATION_REFRESH_INTERVAL, 60000);
-            alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + elapsedTime, pi);
+            PlatformCompat.setExactSafe(alarmManager, AlarmManager.RTC, System.currentTimeMillis() + elapsedTime, pi);
         }
     }
 

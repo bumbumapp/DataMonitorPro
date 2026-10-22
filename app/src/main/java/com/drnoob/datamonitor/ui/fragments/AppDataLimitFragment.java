@@ -1,5 +1,7 @@
 package com.drnoob.datamonitor.ui.fragments;
 
+import com.drnoob.datamonitor.utils.PlatformCompat;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -164,7 +166,7 @@ public class AppDataLimitFragment extends Fragment {
         Gson gson = new Gson();
         List<AppDataUsageModel> l = gson.fromJson(s, type);
         if (mList.size() > 0) {
-            getContext().startService(new Intent(getContext(), AppDataUsageMonitor.class));
+            PlatformCompat.startServiceSafe(getContext(), new Intent(getContext(), AppDataUsageMonitor.class));
             Log.e(TAG, "onCreateView: started " );
         }
 

@@ -19,6 +19,8 @@
 
 package com.drnoob.datamonitor.ui.fragments;
 
+import com.drnoob.datamonitor.ads.InterstitialHelper;
+
 import static android.content.ContentValues.TAG;
 
 import android.animation.Animator;
@@ -114,7 +116,6 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
     private static final String TAG = HomeFragment.class.getSimpleName();
     private static final int MODE_LOAD_OVERVIEW = 0;
     private static final int MODE_REFRESH_OVERVIEW = 1;
-    private InterstitialAd mInterstitialAd;
     private RelativeLayout mSetupDataPlan;
     private TextView mMobileDataUsage,
             mMobileDataSent,
@@ -220,7 +221,7 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
 
         updateData();
         refreshOverview();
-        loadInterstitialads();
+        InterstitialHelper.preload(requireContext());
         if (PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getFloat(DATA_LIMIT, -1) > 0) {
             mSetupDataPlan.setVisibility(View.GONE);
@@ -248,32 +249,18 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
         mSetupDataPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TIMER_FINISHED){
-                    if (mInterstitialAd != null) {
-                        mInterstitialAd.show(requireActivity());
-                        stopAds(0);
-                    } else {
-                        setDataPlan();
-                    }
-            }else{
-                    setDataPlan();
-                }
+                InterstitialHelper.showIfReady(requireActivity(), () -> {
+                    if (isAdded()) setDataPlan();
+                });
             }
         });
 
         mMobileDataUsageToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TIMER_FINISHED){
-                    if (mInterstitialAd!=null){
-                        mInterstitialAd.show(requireActivity());
-                        stopAds(TYPE_MOBILE_DATA);
-                    }else{
-                        reachContainerActivity(TYPE_MOBILE_DATA);
-                    }
-                }else{
-                    reachContainerActivity(TYPE_MOBILE_DATA);
-                }
+                InterstitialHelper.showIfReady(requireActivity(), () -> {
+                    if (isAdded()) reachContainerActivity(TYPE_MOBILE_DATA);
+                });
 
             }
         });
@@ -281,16 +268,9 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
         mWifiUsageToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TIMER_FINISHED){
-                    if (mInterstitialAd!=null){
-                        mInterstitialAd.show(requireActivity());
-                        stopAds(TYPE_WIFI);
-                    }else{
-                        reachContainerActivity(TYPE_WIFI);
-                    }
-                }else{
-                    reachContainerActivity(TYPE_WIFI);
-                }
+                InterstitialHelper.showIfReady(requireActivity(), () -> {
+                    if (isAdded()) reachContainerActivity(TYPE_WIFI);
+                });
             }
 
         });
@@ -511,49 +491,6 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
         dialog.show();
     }
 
-    private void stopAds(int type) {
-        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-            @Override
-            public void onAdClicked() {
-                // Called when a click is recorded for an ad.
-                Log.d(TAG, "Ad was clicked.");
-            }
-
-            @Override
-            public void onAdDismissedFullScreenContent() {
-                if (type!=0){
-                    reachContainerActivity(type);
-                } else {
-                    setDataPlan();
-                }
-                mInterstitialAd = null;
-                Timers.timer().start();
-                TIMER_FINISHED=false;
-                loadInterstitialads();
-
-            }
-
-            @Override
-            public void onAdFailedToShowFullScreenContent(AdError adError) {
-                // Called when ad fails to show.
-                Log.e(TAG, "Ad failed to show fullscreen content.");
-                mInterstitialAd = null;
-            }
-
-            @Override
-            public void onAdImpression() {
-                // Called when an impression is recorded for an ad.
-                Log.d(TAG, "Ad recorded an impression.");
-            }
-
-            @Override
-            public void onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-                Log.d(TAG, "Ad showed fullscreen content.");
-            }
-        });
-    }
-
     private void reachContainerActivity(int type){
         Intent intent = new Intent(mContext, ContainerActivity.class);
         intent.putExtra(GENERAL_FRAGMENT_ID, DATA_USAGE_TODAY);
@@ -613,31 +550,6 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
         }
     }
 
-
-
-
-
-    private void loadInterstitialads() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(requireContext(),getString(R.string.interstial_id), adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
-                        mInterstitialAd = interstitialAd;
-                        Log.i(TAG, "onAdLoaded");
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
-                        Log.d(TAG, loadAdError.toString());
-                        mInterstitialAd = null;
-                    }
-                });
-    }
 
 
 

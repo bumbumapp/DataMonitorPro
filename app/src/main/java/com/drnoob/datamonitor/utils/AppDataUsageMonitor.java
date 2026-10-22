@@ -1,5 +1,7 @@
 package com.drnoob.datamonitor.utils;
 
+import com.drnoob.datamonitor.utils.PlatformCompat;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -45,12 +47,11 @@ public class AppDataUsageMonitor extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        startForeground(0, null);
         startMonitor(this);
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(this, AppDataMonitor.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT|PendingIntent.FLAG_IMMUTABLE);
-        manager.setExact(AlarmManager.RTC, System.currentTimeMillis(), pendingIntent);
+        PlatformCompat.setExactSafe(manager, AlarmManager.RTC, System.currentTimeMillis(), pendingIntent);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class AppDataUsageMonitor extends Service {
         intentFilter.setPriority(100);
         intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-        context.registerReceiver(appDataMonitor, intentFilter);
+        PlatformCompat.registerReceiver(context, appDataMonitor, intentFilter);
     }
 
     public static void stopMonitor(Context context) {
@@ -170,7 +171,7 @@ public class AppDataUsageMonitor extends Service {
             Intent intent = new Intent(context, AppDataUsageMonitor.AppDataMonitor.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT|PendingIntent.FLAG_IMMUTABLE);
             AlarmManager manager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-            manager.setExact(AlarmManager.RTC, System.currentTimeMillis() + 60000, pendingIntent);
+            PlatformCompat.setExactSafe(manager, AlarmManager.RTC, System.currentTimeMillis() + 60000, pendingIntent);
 
         }
 
@@ -178,7 +179,7 @@ public class AppDataUsageMonitor extends Service {
             Intent intent = new Intent(context, AppDataUsageMonitor.AppDataMonitor.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT|PendingIntent.FLAG_IMMUTABLE);
             AlarmManager manager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-            manager.setExact(AlarmManager.RTC, System.currentTimeMillis(), pendingIntent);
+            PlatformCompat.setExactSafe(manager, AlarmManager.RTC, System.currentTimeMillis(), pendingIntent);
         }
     }
 }

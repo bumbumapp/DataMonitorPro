@@ -20,6 +20,10 @@
                 android:title="Github"
                 android:icon="@drawable/ic_github"/>
 
+            <item android:id="@+id/privacy_options"
+                android:title="@string/privacy_options"
+                android:visible="false"/>
+
             <item android:id="@+id/app_licence"
                 android:title="App license"
                 android:icon="@drawable/ic_license"/>
@@ -27,7 +31,5 @@
         </menu>
     </item>
 
-
-=
 
 </menu>

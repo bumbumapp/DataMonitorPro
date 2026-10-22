@@ -19,6 +19,8 @@
 
 package com.drnoob.datamonitor.utils;
 
+import com.drnoob.datamonitor.utils.PlatformCompat;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -68,15 +70,14 @@ public class DataUsageMonitor extends Service {
         super.onCreate();
         boolean isChecked = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("data_usage_alert", false);
         if (isChecked) {
-            startForeground(0, null);
             startMonitor(this);
             AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
             Intent intent = new Intent(this, DataMonitor.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT|PendingIntent.FLAG_IMMUTABLE);
-            manager.setExact(AlarmManager.RTC, System.currentTimeMillis(), pendingIntent);
+            PlatformCompat.setExactSafe(manager, AlarmManager.RTC, System.currentTimeMillis(), pendingIntent);
         }
         else {
-            onDestroy();
+            stopSelf();
         }
 
     }
@@ -99,7 +100,7 @@ public class DataUsageMonitor extends Service {
         intentFilter.setPriority(100);
         intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-        context.registerReceiver(dataMonitor, intentFilter);
+        PlatformCompat.registerReceiver(context, dataMonitor, intentFilter);
     }
 
     public static void stopMonitor(Context context) {
@@ -179,7 +180,7 @@ public class DataUsageMonitor extends Service {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 //            int elapsedTime = PreferenceManager.getDefaultSharedPreferences(context)
 //                    .getInt(NOTIFICATION_REFRESH_INTERVAL, 6000);
-            alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + 60000, pendingIntent);
+            PlatformCompat.setExactSafe(alarmManager, AlarmManager.RTC, System.currentTimeMillis() + 60000, pendingIntent);
         }
 
         private void restartMonitor(Context context) throws ParseException {
@@ -243,7 +244,7 @@ public class DataUsageMonitor extends Service {
 
             }
 
-            manager.setExact(AlarmManager.RTC, endTimeMillis, pendingIntent);
+            PlatformCompat.setExactSafe(manager, AlarmManager.RTC, endTimeMillis, pendingIntent);
 
             Log.d(TAG, "onReceive: " + endTimeMillis);
         }

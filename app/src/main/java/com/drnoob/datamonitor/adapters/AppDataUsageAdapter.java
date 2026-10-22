@@ -19,6 +19,8 @@
 
 package com.drnoob.datamonitor.adapters;
 
+import com.drnoob.datamonitor.ads.InterstitialHelper;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.usage.UsageEvents;
@@ -78,7 +80,6 @@ public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapte
     private Boolean animate;
     private Boolean fromHome;
     private Activity mActivity;
-    private InterstitialAd mInterstitialAd;
 
     public AppDataUsageAdapter(List<AppDataUsageModel> mList, Context mContext) {
         this.mList = mList;
@@ -140,21 +141,11 @@ public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapte
 
         holder.mAppName.setText(model.getAppName());
         holder.mDataUsage.setText(totalDataUsage);
-        loadInterstitialads(holder.itemView.getContext());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TIMER_FINISHED){
-                    if (mInterstitialAd!=null){
-                        mInterstitialAd.show(mActivity);
-                        stopAds(model);
-                    }
-                    else {
-                        showDialog(model);
-                    }
-                }else{
-                    showDialog(model);
-                }
+                // Frequency-capped interstitial (one preloaded ad, >= 60 s apart), then the details dialog.
+                InterstitialHelper.showIfReady(mActivity, () -> showDialog(model));
 
                 }
 
@@ -217,65 +208,6 @@ public class AppDataUsageAdapter extends RecyclerView.Adapter<AppDataUsageAdapte
             return null;
         }
 
-    }
-    private void stopAds(AppDataUsageModel model) {
-        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-            @Override
-            public void onAdClicked() {
-                // Called when a click is recorded for an ad.
-                Log.d(TAG, "Ad was clicked.");
-            }
-
-            @Override
-            public void onAdDismissedFullScreenContent() {
-                showDialog(model);
-                Timers.timer().start();
-                TIMER_FINISHED=false;
-                mInterstitialAd = null;
-                loadInterstitialads(mContext);
-            }
-
-            @Override
-            public void onAdFailedToShowFullScreenContent(AdError adError) {
-                // Called when ad fails to show.
-                Log.e(TAG, "Ad failed to show fullscreen content.");
-                mInterstitialAd = null;
-            }
-
-            @Override
-            public void onAdImpression() {
-                // Called when an impression is recorded for an ad.
-                Log.d(TAG, "Ad recorded an impression.");
-            }
-
-            @Override
-            public void onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-                Log.d(TAG, "Ad showed fullscreen content.");
-            }
-        });
-    }
-
-    private void loadInterstitialads(Context context) {
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(context,context.getString(R.string.interstial_id), adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
-                        mInterstitialAd = interstitialAd;
-                        Log.i(TAG, "onAdLoaded");
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
-                        Log.d(TAG, loadAdError.toString());
-                        mInterstitialAd = null;
-                    }
-                });
     }
 
 

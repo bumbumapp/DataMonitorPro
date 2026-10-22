@@ -19,6 +19,8 @@
 
 package com.drnoob.datamonitor.Widget;
 
+import com.drnoob.datamonitor.utils.PlatformCompat;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -337,14 +339,14 @@ public class DataUsageWidget extends AppWidgetProvider {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         int elapsedTime = PreferenceManager.getDefaultSharedPreferences(context).getInt("widget_refresh_interval", 60000);
-        alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + elapsedTime, pendingIntent);
+        PlatformCompat.setExactSafe(alarmManager, AlarmManager.RTC, System.currentTimeMillis() + elapsedTime, pendingIntent);
     }
 
     private void startReceiver(Context context) {
         DataUsageWidget dataUsageWidget = new DataUsageWidget();
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         intentFilter.setPriority(100);
-        context.getApplicationContext().registerReceiver(dataUsageWidget, intentFilter);
+        PlatformCompat.registerReceiver(context.getApplicationContext(), dataUsageWidget, intentFilter);
 
     }
 }

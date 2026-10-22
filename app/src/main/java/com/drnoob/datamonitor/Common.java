@@ -19,6 +19,8 @@
 
 package com.drnoob.datamonitor;
 
+import com.drnoob.datamonitor.utils.PlatformCompat;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -110,10 +112,10 @@ public class Common {
 
     public static void refreshService(Context context) {
         if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("network_signal_notification", false)) {
-            context.startService(new Intent(context, LiveNetworkMonitor.class));
+            PlatformCompat.startForegroundServiceSafe(context, new Intent(context, LiveNetworkMonitor.class));
         }
         if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("setup_notification", false)) {
-            context.startService(new Intent(context, NotificationService.class));
+            PlatformCompat.startForegroundServiceSafe(context, new Intent(context, NotificationService.class));
         }
     }
 
@@ -130,7 +132,7 @@ public class Common {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1001,
                 intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         if (wakeupMillis > System.currentTimeMillis()) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, wakeupMillis, pendingIntent);
+            PlatformCompat.setExactSafe(alarmManager, AlarmManager.RTC_WAKEUP, wakeupMillis, pendingIntent);
             Log.d(TAG, "setRefreshAlarm: set" );
         }
         else {
@@ -152,7 +154,7 @@ public class Common {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1001,
                 intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         if (wakeupMillis > System.currentTimeMillis()) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, wakeupMillis, pendingIntent);
+            PlatformCompat.setExactSafe(alarmManager, AlarmManager.RTC_WAKEUP, wakeupMillis, pendingIntent);
             Log.d(TAG, "setDataPlanNotification: set" );
         }
         else {

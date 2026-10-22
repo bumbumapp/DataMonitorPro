@@ -55,7 +55,7 @@ public class SwitchPreferenceCompat extends androidx.preference.SwitchPreference
         super.onBindViewHolder(holder);
         if (holder != null) {
             TextView title = (TextView) holder.findViewById(android.R.id.title);
-            LinearLayout rootLayout = (LinearLayout) title.getParent().getParent();
+            ViewGroup rootLayout = (ViewGroup) title.getParent().getParent();
             rootLayout.setBackgroundResource(R.drawable.selectable_item_plain_background);
             TextView summary = (TextView) holder.findViewById(android.R.id.summary);
             summary.setTextColor(getContext().getResources().getColor(R.color.text_secondary, null));

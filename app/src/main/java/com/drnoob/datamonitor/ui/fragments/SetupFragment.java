@@ -19,6 +19,8 @@
 
 package com.drnoob.datamonitor.ui.fragments;
 
+import com.drnoob.datamonitor.utils.PlatformCompat;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
@@ -253,7 +255,7 @@ public class SetupFragment extends Fragment {
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     boolean isChecked = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("setup_notification", false);
                     if (isChecked) {
-                        getContext().startService(new Intent(getContext(), NotificationService.class));
+                        PlatformCompat.startForegroundServiceSafe(getContext(), new Intent(getContext(), NotificationService.class));
                         Log.d(TAG, "onPreferenceClick: Notification started");
                         snackbar = Snackbar.make(getActivity().findViewById(R.id.main_root),
                                 getString(R.string.label_notification_enabled), Snackbar.LENGTH_SHORT)
@@ -276,7 +278,7 @@ public class SetupFragment extends Fragment {
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     boolean isChecked = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("network_signal_notification", false);
                     if (isChecked) {
-                        getContext().startService(new Intent(getContext(), LiveNetworkMonitor.class));
+                        PlatformCompat.startForegroundServiceSafe(getContext(), new Intent(getContext(), LiveNetworkMonitor.class));
                         Log.d(TAG, "onPreferenceClick: Notification started");
                         snackbar = Snackbar.make(getActivity().findViewById(R.id.main_root),
                                 getString(R.string.label_network_signal_notification_enabled), Snackbar.LENGTH_SHORT)
@@ -1249,7 +1251,7 @@ public class SetupFragment extends Fragment {
                     }
                     else {
                         if (isChecked) {
-                            getContext().startService(new Intent(getContext(), DataUsageMonitor.class));
+                            PlatformCompat.startServiceSafe(getContext(), new Intent(getContext(), DataUsageMonitor.class));
                         } else {
                             getContext().stopService(new Intent(getContext(), DataUsageMonitor.class));
                         }
@@ -1410,7 +1412,7 @@ public class SetupFragment extends Fragment {
         }
 
         public static void resumeMonitor() {
-            mContext.startService(new Intent(mContext, DataUsageMonitor.class));
+            PlatformCompat.startServiceSafe(mContext, new Intent(mContext, DataUsageMonitor.class));
         }
 
         private void updateResetData() {

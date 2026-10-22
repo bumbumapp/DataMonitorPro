@@ -19,6 +19,9 @@
 
 package com.drnoob.datamonitor.ui.activities;
 
+import com.drnoob.datamonitor.ads.AdsConsent;
+import com.drnoob.datamonitor.ads.InterstitialHelper;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationChannel;
@@ -69,11 +72,6 @@ import com.drnoob.datamonitor.core.task.DatabaseHandler;
 import com.drnoob.datamonitor.databinding.ActivityMainBinding;
 import com.drnoob.datamonitor.ui.fragments.LicenseFragment;
 import com.drnoob.datamonitor.utils.SharedPreferences;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
@@ -382,6 +380,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        MenuItem privacy = menu.findItem(R.id.privacy_options);
+        if (privacy != null) {
+            privacy.setVisible(AdsConsent.isPrivacyOptionsRequired(this));
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -394,6 +396,9 @@ public class MainActivity extends AppCompatActivity {
                     value = 0;
                     finish();
                 }
+                break;
+            case R.id.privacy_options:
+                AdsConsent.showPrivacyOptions(this);
                 break;
             case R.id.mTheme:
                 BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this, R.style.BottomSheet);
@@ -504,15 +509,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void loadBanners() {
-
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        // UMP consent first; MobileAds is initialised and the interstitial preloaded only when allowed.
+        AdsConsent.gather(this, () -> {
+            invalidateOptionsMenu();
+            InterstitialHelper.preload(this);
         });
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -22,6 +22,7 @@ package com.drnoob.datamonitor.core.base;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.preference.PreferenceViewHolder;
@@ -49,10 +50,16 @@ public class PreferenceCategory extends androidx.preference.PreferenceCategory {
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         if (holder != null) {
-            TextView title = (TextView) holder.findViewById(android.R.id.title);
-            title.setTextColor(getContext().getResources().getColor(R.color.text_primary, null));
-            LinearLayout rootLayout = (LinearLayout) title.getParent();
-            rootLayout.setPadding(30, 0, 0, 0);
+            View titleView = holder.findViewById(android.R.id.title);
+            if (titleView instanceof TextView) {
+                TextView title = (TextView) titleView;
+                title.setTextColor(getContext().getResources().getColor(R.color.text_primary, null));
+                // androidx.preference 1.2 wraps the title in a RelativeLayout (was LinearLayout):
+                // only rely on it being a View to avoid a ClassCastException.
+                if (title.getParent() instanceof View) {
+                    ((View) title.getParent()).setPadding(30, 0, 0, 0);
+                }
+            }
 
         }
 

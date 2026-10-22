@@ -354,4 +354,5 @@
     <string name="tobias_summary" translatable="false">German</string>
     <string name="tobias" translatable="false">Tobias</string>
 
+    <string name="privacy_options">Privacy options</string>
 </resources>

@@ -19,6 +19,8 @@
 
 package com.drnoob.datamonitor.utils;
 
+import com.drnoob.datamonitor.utils.PlatformCompat;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -111,10 +113,12 @@ public class LiveNetworkMonitor extends Service {
         mBuilder.setAutoCancel(false);
         mBuilder.setGroup(NETWORK_SIGNAL_NOTIFICATION_GROUP);
 
+        // Always promote to foreground first: the service may have been started with
+        // startForegroundService() and must call startForeground() even if already running.
+        PlatformCompat.startForeground(this, NETWORK_SIGNAL_NOTIFICATION_ID, mBuilder.build());
         if (isServiceRunning) {
             return;
         }
-        startForeground(NETWORK_SIGNAL_NOTIFICATION_ID, mBuilder.build());
         isServiceRunning = true;
 
         if (isTimerCancelled) {
@@ -171,7 +175,7 @@ public class LiveNetworkMonitor extends Service {
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         intentFilter.setPriority(100);
         if (!isLiveNetworkReceiverRegistered) {
-            registerReceiver(liveNetworkReceiver, intentFilter);
+            PlatformCompat.registerReceiver(this, liveNetworkReceiver, intentFilter);
             isLiveNetworkReceiverRegistered = true;
             Log.d(TAG, "registerNetworkReceiver: registered" );
         }
@@ -328,7 +332,7 @@ public class LiveNetworkMonitor extends Service {
             super.onAvailable(network);
             isNetworkConnected = true;
             if (isTaskPaused) {
-                LiveNetworkMonitor.this.startForeground(NETWORK_SIGNAL_NOTIFICATION_ID, mBuilder.build());
+                PlatformCompat.startForeground(LiveNetworkMonitor.this, NETWORK_SIGNAL_NOTIFICATION_ID, mBuilder.build());
                 restartService(context, false);
                 isTaskPaused = false;
             }
