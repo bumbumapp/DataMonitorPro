@@ -27,6 +27,7 @@
         <item name="fontFamily">@font/jakarta</item>
         <item name="toolbarStyle">@style/DM.Toolbar</item>
         <item name="android:navigationBarColor">@color/surface</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="ThemeOverlay.DataUsage.AppWidgetContainer" parent="">
