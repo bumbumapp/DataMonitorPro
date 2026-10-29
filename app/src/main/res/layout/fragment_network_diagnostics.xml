@@ -206,7 +206,7 @@
                                 android:layout_marginStart="4dp"
                                 android:enabled="false"
                                 android:text="- - -"
-                                android:textColor="#2196F3"
+                                android:textColor="@color/primary"
                                 android:textSize="20sp" />
 
                             <TextView
@@ -234,7 +234,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
                             android:text="PING"
-                            android:textColor="#2196F3"
+                            android:textColor="@color/primary"
                             android:textSize="@dimen/_12sdp"
                             android:textStyle="normal|bold" />
 
@@ -301,7 +301,7 @@
                             android:layout_marginTop="15dp"
                             android:text="DOWNLOAD"
                             android:textAlignment="center"
-                            android:textColor="#2196F3"
+                            android:textColor="@color/primary"
                             android:textSize="@dimen/_15sdp"
                             android:textStyle="normal|bold" />
 
@@ -330,7 +330,7 @@
                             android:layout_marginTop="15dp"
                             android:text="UPLOAD"
                             android:textAlignment="center"
-                            android:textColor="#2196F3"
+                            android:textColor="@color/primary"
                             android:textSize="@dimen/_15sdp"
                             android:textStyle="normal|bold" />
 

@@ -82,7 +82,7 @@
     </style>
 
     <style name="Theme.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/ic_data_monitor</item>
+        <item name="android:windowBackground">@drawable/dm_splash</item>
         <item name="android:statusBarColor">@color/surface</item>
     </style>
 

@@ -14,9 +14,7 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
@@ -131,16 +129,11 @@ class HandlerUpload extends Thread {
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Connection", "Keep-Alive");
                 conn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
-                conn.setHostnameVerifier(new HostnameVerifier() {
-                    public boolean verify(final String hostname, final SSLSession session) {
-                        if (hostname.equals(Myveryfyhost)){
-                            return true;
-                        }else{
-                            return false;
-                        }
-
-                    }
-                });
+                // Platform hostname check first (covers the ooklaserver.net host the test redirects to); the listed
+                // test host is still accepted as before, since only random test bytes go over this connection.
+                conn.setHostnameVerifier((hostname, session) ->
+                        HttpsURLConnection.getDefaultHostnameVerifier().verify(hostname, session)
+                                || hostname.equals(Myveryfyhost));
                 conn.connect();
                 DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
                 dos.write(buffer, 0, buffer.length);

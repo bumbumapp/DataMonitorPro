@@ -13,9 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
@@ -52,6 +50,11 @@ public class DevilDownloadTest extends Thread {
         return bd.doubleValue();
     }
 
+    /** Megabits per second for {@code bytes} received in {@code seconds} (no int overflow, no truncation). */
+    static double rateMbps(long bytes, double seconds) {
+        return (bytes * 8.0 / 1_000_000.0) / seconds;
+    }
+
     public double getInstantDownloadRate() {
         return instantDownloadRate;
     }
@@ -59,7 +62,8 @@ public class DevilDownloadTest extends Thread {
     public void setInstantDownloadRate(int downloadedByte, double elapsedTime) {
 
         if (downloadedByte >= 0) {
-            this.instantDownloadRate = round((Double) (((downloadedByte * 8) / (1000 * 1000)) / elapsedTime), 2);
+            // Floating point: integer division used to show 0 Mbps until a whole megabit had arrived.
+            this.instantDownloadRate = elapsedTime > 0 ? round(rateMbps(downloadedByte, elapsedTime), 2) : 0.0;
         } else {
             this.instantDownloadRate = 0.0;
         }
@@ -96,15 +100,11 @@ public class DevilDownloadTest extends Thread {
                 httpsConn = (HttpsURLConnection) url.openConnection();
                 httpsConn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
                 Log.d("myurl", Myveryfyhost);
-                httpsConn.setHostnameVerifier(new HostnameVerifier() {
-                    public boolean verify(final String hostname, final SSLSession session) {
-                        if (hostname.equals(Myveryfyhost)){
-                            return true;
-                        }else{
-                            return false;
-                        }
-                    }
-                });
+                // Platform hostname check first (covers the ooklaserver.net host the test redirects to); the listed
+                // test host is still accepted as before, since only random test bytes go over this connection.
+                httpsConn.setHostnameVerifier((hostname, session) ->
+                        HttpsURLConnection.getDefaultHostnameVerifier().verify(hostname, session)
+                                || hostname.equals(Myveryfyhost));
                 httpsConn.connect();
                 responseCode = httpsConn.getResponseCode();
             } catch (Exception ex) {
@@ -141,7 +141,7 @@ public class DevilDownloadTest extends Thread {
 
         endTime = System.currentTimeMillis();
         downloadElapsedTime = (endTime - startTime) / 1000.0;
-        finalDownloadRate = ((downloadedByte * 8) / (1000 * 1000.0)) / downloadElapsedTime;
+        finalDownloadRate = downloadElapsedTime > 0 ? rateMbps(downloadedByte, downloadElapsedTime) : 0.0;
 
         finished = true;
     }

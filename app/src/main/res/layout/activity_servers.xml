@@ -55,7 +55,7 @@
         android:text="Select automatically"
         android:textAllCaps="false"
         android:textSize="@dimen/_12sdp"
-        android:textColor="#2196F3" />
+        android:textColor="@color/primary" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -70,6 +70,6 @@
         android:layout_centerInParent="true"
         android:visibility="gone"
         android:text="Check your internet connection"
-        android:textColor="#2196F3" />
+        android:textColor="@color/primary" />
 
 </RelativeLayout>
