@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 setTheme(R.style.Theme_DataMonitor);
                 setContentView(binding.getRoot());
                 setSupportActionBar(binding.mainToolbar);
+                styleToolbarTitle(binding.mainToolbar);
                 FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
 
                 SharedPreferences.getUserPrefs(this).edit().putBoolean(SETUP_COMPLETED, true).apply();
@@ -927,6 +928,20 @@ public class MainActivity extends AppCompatActivity {
             fetchApps.execute();
         }
 
+    }
+
+    /** Bento page title: Plus Jakarta Sans ExtraBold (the theme-wide font would otherwise win). */
+    private void styleToolbarTitle(androidx.appcompat.widget.Toolbar toolbar) {
+        final android.graphics.Typeface face = androidx.core.content.res.ResourcesCompat.getFont(this, R.font.jakarta_extrabold);
+        toolbar.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
+            for (int i = 0; i < toolbar.getChildCount(); i++) {
+                android.view.View child = toolbar.getChildAt(i);
+                if (child instanceof android.widget.TextView && ((android.widget.TextView) child).getTypeface() != face) {
+                    ((android.widget.TextView) child).setTypeface(face);
+                    ((android.widget.TextView) child).setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 24);
+                }
+            }
+        });
     }
 
     public static void setTheme(Activity activity) {

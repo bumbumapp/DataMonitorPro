@@ -48,6 +48,7 @@
 <!--    </androidx.cardview.widget.CardView>-->
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,6 +89,7 @@
             android:padding="15dp">
 
             <TextView
+        android:textStyle="bold"
                 android:id="@+id/data_sent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -117,6 +119,7 @@
             android:padding="@dimen/margin_medium">
 
             <TextView
+        android:textStyle="bold"
                 android:id="@+id/data_received"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

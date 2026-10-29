@@ -3,6 +3,10 @@
     <style name="Theme.DataMonitor" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
+        <item name="android:fontFamily">@font/jakarta</item>
+        <item name="fontFamily">@font/jakarta</item>
+        <item name="toolbarStyle">@style/DM.Toolbar</item>
+        <item name="android:navigationBarColor">@color/surface</item>
         <item name="colorPrimaryVariant">@color/primary_variant</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->

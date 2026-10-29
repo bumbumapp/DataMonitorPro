@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/textView5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

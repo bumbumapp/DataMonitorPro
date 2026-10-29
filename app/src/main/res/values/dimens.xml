@@ -2,7 +2,7 @@
 <resources>
     <dimen name="widget_margin">0dp</dimen>
 
-    <dimen name="elevation_default">2dp</dimen>
+    <dimen name="elevation_default">0dp</dimen>
     <dimen name="margin_null">0dp</dimen>
     <dimen name="elevation_null">0dp</dimen>
     <dimen name="margin_extra_small">5dp</dimen>

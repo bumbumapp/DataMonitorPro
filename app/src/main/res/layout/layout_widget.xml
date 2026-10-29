@@ -81,6 +81,7 @@
             android:layout_marginTop="@dimen/margin_extra_small"/>
 
         <TextView
+        android:textStyle="bold"
             android:id="@+id/widget_mobile_data_used"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -143,6 +144,7 @@
             android:layout_marginStart="@dimen/margin_medium"/>
 
         <TextView
+        android:textStyle="bold"
             android:id="@+id/widget_wifi_used"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

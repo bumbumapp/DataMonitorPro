@@ -22,6 +22,11 @@
         <item name="snackbarStyle">@style/Theme.SnackBar</item>
         <item name="snackbarTextViewStyle">@style/Theme.SnackBar.Text</item>
         <item name="background">@color/background</item>
+        <!-- Bento type: Plus Jakarta Sans everywhere. -->
+        <item name="android:fontFamily">@font/jakarta</item>
+        <item name="fontFamily">@font/jakarta</item>
+        <item name="toolbarStyle">@style/DM.Toolbar</item>
+        <item name="android:navigationBarColor">@color/surface</item>
     </style>
 
     <style name="ThemeOverlay.DataUsage.AppWidgetContainer" parent="">
@@ -98,4 +103,24 @@
     </style>
 
     <style name="TextAppearance.App.Tooltip" parent="TextAppearance.Material3.BodySmall"/>
+    <!-- Bento page title in the toolbar. -->
+    <style name="DM.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/jakarta_extrabold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+    <style name="DM.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/DM.ToolbarTitle</item>
+    </style>
+    <!-- Section headings and the toolbar title use AppCompat's title styles: make them Bento bold. -->
+    <style name="TextAppearance.AppCompat.Title" parent="Base.TextAppearance.AppCompat.Title">
+        <item name="android:fontFamily">@font/jakarta_bold</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+    <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/jakarta_extrabold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+    </style>
 </resources>
