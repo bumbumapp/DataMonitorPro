@@ -263,6 +263,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void checkBatteryOptimisationState() {
+        // binding is only inflated once usage access is granted (see onCreate).
+        if (binding == null) return;
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)
                 binding.mainNavHostFragment.getLayoutParams();
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
@@ -335,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         } else {
             super.onBackPressed();
-            binding.bottomNavigationView.setSelectedItemId(R.id.bottom_menu_home);
+            if (binding != null) binding.bottomNavigationView.setSelectedItemId(R.id.bottom_menu_home);
         }
     }
 

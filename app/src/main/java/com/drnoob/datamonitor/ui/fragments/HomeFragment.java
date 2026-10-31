@@ -547,6 +547,10 @@ public class HomeFragment extends Fragment implements View.OnLongClickListener {
             e.printStackTrace();
         } catch (RemoteException e) {
             e.printStackTrace();
+        } catch (SecurityException e) {
+            // Usage access was revoked while the app was in the background; MainActivity.onResume
+            // already sends the user back to setup, so just skip this refresh.
+            e.printStackTrace();
         }
     }
 
