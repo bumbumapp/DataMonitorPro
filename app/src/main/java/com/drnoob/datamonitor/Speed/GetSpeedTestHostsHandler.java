@@ -15,7 +15,7 @@ public class GetSpeedTestHostsHandler extends Thread {
     HashMap<Integer, List<String>> mapValue = new HashMap<>();
     double selfLat = 0.0;
     double selfLon = 0.0;
-    boolean finished = false;
+    volatile boolean finished = false;
 
 
     public HashMap<Integer, String> getMapKey() {
@@ -40,6 +40,15 @@ public class GetSpeedTestHostsHandler extends Thread {
 
     @Override
     public void run() {
+        try {
+            fetch();
+        } finally {
+            // Offline the config request fails early; callers poll isFinished() to retry.
+            finished = true;
+        }
+    }
+
+    private void fetch() {
         //Get latitude, longitude
         try {
             URL url = new URL("https://www.speedtest.net/speedtest-config.php");
@@ -116,6 +125,5 @@ public class GetSpeedTestHostsHandler extends Thread {
             ex.printStackTrace();
         }
 
-        finished = true;
     }
 }
