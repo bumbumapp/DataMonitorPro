@@ -92,3 +92,4 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 .idea/codeStyles/codeStyleConfig.xml
+ads.properties
